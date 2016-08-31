@@ -21,3 +21,13 @@ Have fun with your topic for this adventure game! Here are a few examples to get
 * Kentucky's own [Mammoth Cave inspired classic 'Colossal Cave Adventure'](http://www.digitalhumanities.org/dhq/vol/1/2/000009/000009.html)
 * ['Choose Your Own Adventure' book series](https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure)
 * [Interactive Fiction database](http://www.ifarchive.org/)
+
+## The Plan
+
+Game theme: Stealthy Ninja in a 3 x 3 grid of city blocks.
+
+Win Goal: Find the golden sword.
+
+Lose if:
+1. Bad guy defeats ninja / Ninja health too low.
+2. Ninja gets captured
