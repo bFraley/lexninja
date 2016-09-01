@@ -1,9 +1,9 @@
 # Feature Implementation Outline
 
 ## Overall project structure
-* Create single `utils.py` file for miscellaneous helper functions for the game.
+* Create `utils.py` file for miscellaneous helper functions for the game.
 * Define all game classes in the `lexninja.py` file
-* Run game setup functions, instantiate initial game classes, and enter game loop
+* Run game setup functions, instantiate initial game classes, and enter game runtime loop
 in the `run.py` file.
 
 ## Game Classes
@@ -63,8 +63,10 @@ Main menu options
 For game saving functionality, the game's data structures and corresponding
 values will be written to file. The game loop must be able to update this file
 when a user chooses save game from a main menu. The game loop must be  able to 
-copy values from the saved game file and start from that state.yer moves or turns allow for one action to be taken.
-One each turn, a player can enter one of the following commands:
+copy values from the saved game file and start from that state.
+
+Player moves (or turns) allow for one action to be taken.
+On each turn, a player can enter one of the following commands:
  
 #### Move one city block in a cardinal direction.
 
