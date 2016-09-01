@@ -6,9 +6,19 @@ Text adventure game.
 
 Ninja in a 3 x 3 grid of city blocks.
 
+There is 1 building per city block (9 buildings).
+
+Find the Ancient Golden Sword located in one of the 9 buildings!
+
+Some buildings contain an opponent to defeat by striking 3 times.
+Some buildings contain a health restore item.
+
+The Ancient Golden Sword is protected by a fierce opponent that
+takes 6 strikes to defeat!
+
 ### Win Goal:
 
-Find the golden sword.
+Find the golden sword and defeat the boss protecting it.
 
 ### Lose if:
 
