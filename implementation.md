@@ -38,7 +38,8 @@ Inside 1 of the 5 buildings that contain an opponent will be the
 ancient golden sword item. The opponent in the building that contains
 the golden sword will take 6 strikes to defeat, and will be immune to 
 nunchuck and throwing star strikes. Only 6 strikes of the sword will
-defeat the 'boss' protecting the sword.  
+defeat the 'boss' protecting the sword. Regular opponents are defeated after
+3 strikes of any weapon.
 
 ## Main Menu
 
@@ -59,13 +60,13 @@ Main menu options
 
 ## Game Loop
 
-For game saving functionality, the game's data structures and corresp
+For game saving functionality, the game's data structures and corresponding
 values will be written to file. The game loop must be able to update this file
 when a user chooses save game from a main menu. The game loop must be  able to 
 copy values from the saved game file and start from that state.yer moves or turns allow for one action to be taken.
 One each turn, a player can enter one of the following commands:
  
-#### Move one city block in a cardinal dre
+#### Move one city block in a cardinal direction.
 
 N, E, S, W
 
