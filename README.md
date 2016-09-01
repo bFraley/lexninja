@@ -1,33 +1,68 @@
-## Start on game
+## lexninja game description
 
-* Plan out game, then review plan with one of the three of us 
-* Text adventure
-* Have rooms the user can navigate
-* Player can move to a new room
-* Player has an inventory
-  * Could require keys to get into room
-  * Could have weapon to face monsters
-  * Food where every step costs food. Player loses if they run out of food
-* Player should be able to win or lose
-  * Win example: Win by getting to the exit
-  * Lose example: Player is eaten by a monster in a room
-* Should be able to save and load their game
+Text adventure game.
 
+### Theme:
 
-## Inspiration
+Ninja in a 3 x 3 grid of city blocks.
 
-Have fun with your topic for this adventure game! Here are a few examples to get your creative juices flowing:
+### Win Goal:
 
-* Kentucky's own [Mammoth Cave inspired classic 'Colossal Cave Adventure'](http://www.digitalhumanities.org/dhq/vol/1/2/000009/000009.html)
-* ['Choose Your Own Adventure' book series](https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure)
-* [Interactive Fiction database](http://www.ifarchive.org/)
+Find the golden sword.
 
-## The Plan
+### Lose if:
 
-Game theme: Stealthy Ninja in a 3 x 3 grid of city blocks.
-
-Win Goal: Find the golden sword.
-
-Lose if:
 1. Bad guy defeats ninja / Ninja health too low.
+
 2. Ninja gets captured
+
+### Ninja Character
+
+#### Weapon Choices
+
+Each weapon causes the same amount of damage to opponents.
+
+1. Sword
+
+2. Nunchucks
+
+3. Thowing Stars
+
+#### Health
+
+- For simplicity, health is measured by low, medium, and high and
+is represented in code by numbers 1, 2, and 3.
+
+- Health level decreases when:
+  - Getting struck by a bad guy.
+  - Every three moves made.
+
+- Health level increases when:
+  - Heart item is found (health fully restored).
+
+### Opponent Characters (bad guys)
+
+#### Health
+
+ - Opponent health may only decrease.
+ - Opponents are eliminated after three successful strikes.
+
+### Wish List
+
+1. Run out of time.
+
+2. Streets / Paths
+
+3. Multiple buildings per block.
+
+4. Multistory buildings
+
+5. Have to find weapons.
+
+6. Weapon supply can run out.
+
+7. Weapon damage levels are different.
+
+8. Sound effects.
+
+9. Robust use of Unicode characters.

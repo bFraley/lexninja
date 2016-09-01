@@ -1,10 +1,13 @@
-# install.py
+# utils.py
 # lexninja text-adventure game - Brett Fraley - 2016
-# This module sets up a user directory structure for lexninja.
+# Utility classes and functions for lexninja game.
+
+# Functions that set up a user directory structure for lexninja.
 
 import os
 
-# Set up initial user directory structure.
+# Set up initial user directory structure and files.
+# --------------------------------------------------
 def install_dirs():
 
 	# Change to user's home directory ( ~ ).
@@ -14,17 +17,17 @@ def install_dirs():
     if not os.path.exists('lexninja'):
     	os.mkdirs('lexninja')
     	os.chdir('lexninja')
-        os.makedirs('users')
-	    os.chdir('users')
+        os.makedirs('saved_games')
+	    os.chdir('saved_games')
 	else:
 		os.chdir('lexninja')
 
-        # Do we have a users directory?
-        if not os.path.exists('users'):
-        	os.mkdirs('users')
-        	os.chdir('users')
+        # Do we have a saved_games directory?
+        if not os.path.exists('saved_games'):
+        	os.mkdirs('saved_games')
+        	os.chdir('saved_games')
         else:
-        	os.chdir('users')
+        	os.chdir('saved_games')
 
     return get_user()
     

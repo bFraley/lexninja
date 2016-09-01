@@ -1,5 +1,5 @@
 # lexninja text-adventure game - Brett Fraley - 2016
-# Utility functions and classes for lexninja.
+# Class definitions and global values for lexninja.
 
 # Define different kinds of menus.
 class Menu():
