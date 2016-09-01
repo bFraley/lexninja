@@ -22,9 +22,7 @@ Find the golden sword and defeat the boss protecting it.
 
 ### Lose if:
 
-1. Bad guy defeats ninja / Ninja health too low.
-
-2. Ninja gets captured
+1. Bad guy defeats ninja or ninja health is depleted.
 
 ### Ninja Character
 
