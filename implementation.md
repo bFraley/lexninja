@@ -25,25 +25,19 @@ in the `run.py` file.
 * Weapons
 * Heart (health boost)
 
-The city will be an array of 3 arrays.
+The city will be an array of Building objects.
 
-Each array will contain three dictionaries.
+* 5 of 9 buildings will contain an opponent. While the other
+* 4 of 9 buildings will contain a heart health item.
 
-Each dictionary has a single key and value.
+* Inside 1 of the 5 buildings that contain an opponent will be the
+ancient golden sword item.
 
-The keys will be named 'block1' through 'block9'
+* The opponent in the building that contains the golden sword will take
+6 strikes to defeat and will be immune to nunchuck and throwing star strikes.
+So, only 6 strikes of the sword will defeat the 'boss' protecting the sword.
 
-The value of each key will be an instance of Building.
-
-5 of 9 buildings will contain an opponent. While the other
-4 of 9 buildings will contain a heart health item.
-
-Inside 1 of the 5 buildings that contain an opponent will be the
-ancient golden sword item. The opponent in the building that contains
-the golden sword will take 6 strikes to defeat, and will be immune to 
-nunchuck and throwing star strikes. Only 6 strikes of the sword will
-defeat the 'boss' protecting the sword. Regular opponents are defeated after
-3 strikes of any weapon.
+* Regular opponents are defeated after 3 strikes of any weapon.
 
 ## Main Menu
 
