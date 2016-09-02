@@ -4,6 +4,10 @@
 from random import randint
 import utils
 
+# Game Class Definitions
+# ----------------------------------------------------------------------------
+
+
 # An instance of a game, which could be new or loaded from saved game data.
 class Game():
     def __init__(self, city_t, ninja_t, badguys_t, datafile):
@@ -89,10 +93,47 @@ class Opponent():
     def block_attack(self):
         pass
 
+# Functions Definitions
+# ----------------------------------------------------------------------------
 
 # Choose which building 'Ancient Golden Sword' is in.
 def new_golden_sword_index():
     return randint(0, 8)
+
+# Choose which 5 buildings bad guys will occupy.
+# Ignoring the 'boss' building for now.
+def new_badguy_indexlist():
+    return_list = []
+    for i in range(0, 5):
+        return_list.append(randint(0, 8))
+
+    return return_list
+
+# Return command value from game prompt.
+def game_prompt(msg):
+    command_in = input(msg)
+    return command_in
+
+# Verify a valid menu option input
+def valid_menu_option(option):
+    if option in ['1', '2', '3', '4']:
+        return True
+    else:
+        print('Unrecognized menu option. Try again.')
+        return False
+
+
+# Process and act on menu option selection.
+def do_menu_command(option):
+    if option == '1':
+        pass
+    elif option == '2':
+        pass
+    elif option == '3':
+        pass
+    elif option == '4':
+        pass
+
 
 # Output copy of city.blocks state.
 def copy_city_data(city_instance):
@@ -105,10 +146,12 @@ def copy_city_data(city_instance):
         i = i + 1
 
     return city_data_output
+
+
     
 
 # Textual content and dialogue
-#-----------------------------
+# ----------------------------------------------------------------------------
 
 # Unicode graphical characters
 blackstar = '\u2605'
@@ -124,6 +167,8 @@ star_line = star_line*12
 # Dialogue text.
 author = '       By Brett Fraley - 2016       '
 menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
+game_commands = ['N', 'E', 'S', 'W', 'SWORD', 'NUNCHUCKS', 'STAR',
+                    'ENTER', 'EXIT', 'ATTACK', 'BLOCK']
 
 # Logo is a list of lines used in print_logo below.
 logo = [
@@ -154,9 +199,10 @@ def print_menu():
         print('{} {}. {}'.format(dharma, i, menu_options[i]))
         i = i + 1
 
-
-
-
+# Print the game commands.
+def print_game_commands():
+    for command in game_commands:
+        print('{} '.format(command))
 
 
 
