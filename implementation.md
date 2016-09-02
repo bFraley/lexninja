@@ -3,13 +3,12 @@
 ## Overall project structure
 * Create `utils.py` file for miscellaneous helper functions for the game.
 * Define all game classes in the `lexninja.py` file
-<<<<<<< HEAD
+
 * Run game setup functions, instantiate initial game classes, and enter game loop
 in the `play.py` file.
-=======
+
 * Run game setup functions, instantiate initial game classes, and enter game runtime loop
 in the `run.py` file.
->>>>>>> 5367eaea73d1d9244120418093cc79026e8cf3f6
 
 ## Game Classes
 
@@ -96,27 +95,3 @@ ATTACK
 #### Block an opponent's strike.
 
 BLOCK 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
