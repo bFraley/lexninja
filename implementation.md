@@ -4,7 +4,7 @@
 * Create single `utils.py` file for miscellaneous helper functions for the game.
 * Define all game classes in the `lexninja.py` file
 * Run game setup functions, instantiate initial game classes, and enter game loop
-in the `run.py` file.
+in the `play.py` file.
 
 ## Game Classes
 
