@@ -53,17 +53,61 @@ class City():
             Building(), Building(), Building()
         ]
 
+        """
+        Building index map
+
+        0 1 2
+        3 4 5
+        6 7 8
+        """
+
 # Define ninja character.
+# Accepts a city instance that is passed in in play.py.
 class Ninja():
-    def __init__(self):
+    def __init__(self, city):
+        self.city = city
         self.health = 3
         self.weapon = 1 # 1 is stars, 2 is nunchucks, 3 is sword.
-        self.block_location = 5 # Starts in middle of city.
+        self.block_location = 4 # Starts in middle of city.
         self.inside_building = False
 
 
-    def move_in_direction(self):
-        pass
+    # Move the ninja 1 city block in the direction intended by the player.
+    def move_in_direction(self, direction):
+        self.direction = direction
+
+        if direction == 'N':
+            if ninja_is_inside(self)
+                break
+            elif ninja_on_edge(self, [0, 1, 2]):
+                break
+            else:
+                self.block_location = self.block_location - 3
+
+        elif direction == 'E':
+            if ninja_is_inside(self)
+                break
+            elif ninja_on_edge(self, [2, 5, 8]):
+                break
+            else:
+                self.block_location = self.block_location + 1
+
+        elif direction == 'S':
+            if ninja_is_inside(self)
+                break
+            elif ninja_on_edge(self, [6, 7, 8]):
+                break
+            else:
+                self.block_location = self.block_location + 3
+            
+        elif direction == 'W':
+            if ninja_is_inside(self)
+                break
+            elif ninja_on_edge(self, [0, 3, 6]):
+                break
+            else:
+                self.block_location = self.block_location - 1
+
 
     def attack(self):
         pass
@@ -76,14 +120,17 @@ class Ninja():
 
     def exit_building(self):
         pass
+    
+    # Weapon arg is either 1, 2, or 3
+    def change_weapon(self, weapon):
+        self.weapon = weapon
 
-    def change_weapon(self):
-        pass
 
-
-# Define opponent character.
-class Opponent():
-    def __init__(self):
+# Define bad guy character.
+# Accepts a city instance that is passed in in play.py.
+class Badguy():
+    def __init__(self, city):
+        self.city = city
         self.health = 3
         self.boss = False
 
@@ -95,6 +142,9 @@ class Opponent():
 
 # Functions Definitions
 # ----------------------------------------------------------------------------
+
+# Game initial logic functions.
+# -----------------------------
 
 # Choose which building 'Ancient Golden Sword' is in.
 def new_golden_sword_index():
@@ -108,6 +158,9 @@ def new_badguy_indexlist():
         return_list.append(randint(0, 8))
 
     return return_list
+
+# User command input functions.
+# ----------------------------
 
 # Return command value from game prompt.
 def game_prompt(msg):
@@ -125,8 +178,28 @@ def valid_menu_option(option):
         return False
 
 
+# Check if ninja is inside a building.
+def ninja_is_inside(ninja_self)
+    if ninja_self.inside_building = True:
+        print(warn_exit_building)
+            return True
+    else:
+        return False
+
+# Check if ninja is on city edges.
+# So, they can't move further in that direction.
+# Accepts a ninja, and list of 3 block indices.
+
+def ninja_on_edge(ninja_self, indices_list)
+    if ninja_self.block_location in indices_list:
+        print(warn_invalid_direction)
+        return True
+    else:
+        return False
 
 
+# Game data saving functions
+# --------------------------
 
 # Output copy of city.blocks state.
 def copy_city_data(city_instance):
@@ -140,7 +213,9 @@ def copy_city_data(city_instance):
 
     return city_data_output
 
+# Output copy of ninja character state.
 
+# Output copy of game state values
     
 
 # Textual content and dialogue
@@ -162,7 +237,10 @@ author = '       By Brett Fraley - 2016       '
 menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
 game_commands = ['N', 'E', 'S', 'W', 'SWORD', 'CHUCKS', 'STAR',
                     'ENTER', 'EXIT', 'ATTACK', 'BLOCK']
-exit_message = "Thank you for playing lexninja, have a nice day"
+exit_message = 'Thank you for playing lexninja, have a nice day!\n'
+warn_exit_building = 'You must first exit the building!\n'
+warn_invalid_direction = 'You cannot move further in that direction!'
+
 
 # Logo is a list of lines used in print_logo below.
 logo = [

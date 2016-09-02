@@ -89,16 +89,20 @@ def Start():
             
             # Move North
             elif command == lexninja.game_commands[0]:
-                pass
+                lexninja.move_in_direction('N')
+
             # Move East
             elif command == lexninja.game_commands[1]:
-                pass
+                lexninja.move_in_direction('E')
+
             # Move South
             elif command == lexninja.game_commands[2]:
-                pass
+                lexninja.move_in_direction('S')
+
             # Move West
             elif command == lexninja.game_commands[3]:
-                pass
+                lexninja.move_in_direction('W')
+                
             # Use sword.
             elif command == lexninja.game_commands[4]:
                 pass
