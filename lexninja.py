@@ -116,6 +116,8 @@ def game_prompt(msg):
 
 # Verify a valid menu option input
 def valid_menu_option(option):
+    option = option.upper()
+
     if option in ['1', '2', '3', '4']:
         return True
     else:
@@ -123,16 +125,7 @@ def valid_menu_option(option):
         return False
 
 
-# Process and act on menu option selection.
-def do_menu_command(option):
-    if option == '1':
-        pass
-    elif option == '2':
-        pass
-    elif option == '3':
-        pass
-    elif option == '4':
-        pass
+
 
 
 # Output copy of city.blocks state.
@@ -167,8 +160,9 @@ star_line = star_line*12
 # Dialogue text.
 author = '       By Brett Fraley - 2016       '
 menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
-game_commands = ['N', 'E', 'S', 'W', 'SWORD', 'NUNCHUCKS', 'STAR',
+game_commands = ['N', 'E', 'S', 'W', 'SWORD', 'CHUCKS', 'STAR',
                     'ENTER', 'EXIT', 'ATTACK', 'BLOCK']
+exit_message = "Thank you for playing lexninja, have a nice day"
 
 # Logo is a list of lines used in print_logo below.
 logo = [
@@ -194,9 +188,9 @@ def print_logo():
 # Print main menu.
 def print_menu():
     print('\n{}\n'.format(star_line))
-    i = 0
-    while i < len(menu_options):
-        print('{} {}. {}'.format(dharma, i, menu_options[i]))
+    i = 1
+    while i <= len(menu_options):
+        print('{} {}. {}'.format(dharma, i, menu_options[i - 1]))
         i = i + 1
 
 # Print the game commands.
