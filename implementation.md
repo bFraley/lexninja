@@ -27,7 +27,7 @@ in the `run.py` file.
 
 The city will be an array of Building objects.
 
-* 5 of 9 buildings will contain an opponent. While the other
+* 5 of 9 buildings will contain an opponent.
 * 4 of 9 buildings will contain a heart health item.
 
 * Inside 1 of the 5 buildings that contain an opponent will be the
