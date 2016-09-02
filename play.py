@@ -3,10 +3,6 @@
 import os
 import lexninja
 
-
-
-
-
 def Start():
 
     state = lexninja.State()
@@ -87,6 +83,8 @@ def Start():
                 lexninja.print_menu()
                 menu_mode()
             
+            # Refactor THIS!!
+
             # Move North
             elif command == lexninja.game_commands[0]:
                 lexninja.move_in_direction('N')
@@ -102,7 +100,7 @@ def Start():
             # Move West
             elif command == lexninja.game_commands[3]:
                 lexninja.move_in_direction('W')
-                
+
             # Use sword.
             elif command == lexninja.game_commands[4]:
                 pass

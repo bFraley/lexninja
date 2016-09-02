@@ -72,41 +72,60 @@ class Ninja():
         self.inside_building = False
 
 
+    def print_location(self):
+        if self.inside_building:
+            print('Inside Building: {}'.format(self.block_location + 1))
+        else:
+            print('City Block: {}'.format(self.block_location + 1))
+        
+
     # Move the ninja 1 city block in the direction intended by the player.
     def move_in_direction(self, direction):
         self.direction = direction
 
         if direction == 'N':
-            if ninja_is_inside(self)
-                break
+            if ninja_is_inside(self):
+                print(warn_exit_building)
+
             elif ninja_on_edge(self, [0, 1, 2]):
-                break
+                print(warn_invalid_direction)
+
             else:
                 self.block_location = self.block_location - 3
+                self.print_location()
 
         elif direction == 'E':
-            if ninja_is_inside(self)
-                break
+            if ninja_is_inside(self):
+                print(warn_exit_building)
+
             elif ninja_on_edge(self, [2, 5, 8]):
-                break
+                print(warn_invalid_direction)
+
             else:
                 self.block_location = self.block_location + 1
+                self.print_location()
 
         elif direction == 'S':
-            if ninja_is_inside(self)
-                break
+            if ninja_is_inside(self):
+                print(warn_exit_building)
+
             elif ninja_on_edge(self, [6, 7, 8]):
-                break
+                print(warn_invalid_direction)
+
             else:
                 self.block_location = self.block_location + 3
+                self.print_location()
             
         elif direction == 'W':
-            if ninja_is_inside(self)
-                break
+            if ninja_is_inside(self):
+                print(warn_exit_building)
+
             elif ninja_on_edge(self, [0, 3, 6]):
-                break
+                print(warn_invalid_direction)
+
             else:
                 self.block_location = self.block_location - 1
+                self.print_location()
 
 
     def attack(self):
@@ -177,12 +196,13 @@ def valid_menu_option(option):
         print('Unrecognized menu option. Try again.')
         return False
 
+# Ninja character logic functions.
+# -------------------------------
 
 # Check if ninja is inside a building.
-def ninja_is_inside(ninja_self)
-    if ninja_self.inside_building = True:
-        print(warn_exit_building)
-            return True
+def ninja_is_inside(ninja_self):
+    if ninja_self.inside_building:
+        return True
     else:
         return False
 
@@ -190,9 +210,8 @@ def ninja_is_inside(ninja_self)
 # So, they can't move further in that direction.
 # Accepts a ninja, and list of 3 block indices.
 
-def ninja_on_edge(ninja_self, indices_list)
+def ninja_on_edge(ninja_self, indices_list):
     if ninja_self.block_location in indices_list:
-        print(warn_invalid_direction)
         return True
     else:
         return False
