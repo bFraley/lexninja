@@ -8,21 +8,49 @@ import utils
 # Game Class Definitions
 # ----------------------------------------------------------------------------
 
-
 # An instance of a game, which could be new or loaded from saved game data.
 class Game():
-    def __init__(self, city_t, ninja_t, badguys_t, state_t):
-        # self.datafile = datafile or None
-        self.city = city_t
-        self.ninja = ninja_t
-        self.badguys = badguys_t
-        self.state = state_t
+    def __init__(self, datafile = None):
+        self.datafile = datafile
+        self.state = State()
+        self.city = City()
+        self.ninja = Ninja(self.city)
+        self.badguys = self.get_badguys()
+        self.hide_sword()
 
+    # Hide the ancient golden sword in a building.
+    def hide_sword(self):
+        sword_index = new_golden_sword_index()
+        self.city.blocks[sword_index].has_goldensword = True
+        self.city.blocks[sword_index].has_badguy = True
+
+    # Place 4 health boosts in buildings without badguys.
+    def hide_healths(self):
+        for building in self.city.blocks:
+            if not building.has_badguy:
+                building.has_health = True
+
+    # Randomly pick 5 bad guy location indices to place in buildings.
+    def get_badguys(self):
+        badguy_index = new_badguy_indexlist()
+
+        # Empty list container for the 5 instances of Badguy
+        badguys = []
+
+        for i in badguy_index:
+            self.city.blocks[i].has_badguy = True
+            badguys.append(Badguy(self.city))
     
+        return badguys
+        
     # Command mode prompt loop for player moves.
     def command_mode(self):
         if self.state.menu:
             self.menu_mode()
+
+        elif self.ninja.victory == True:
+            print(win_message)
+            exit(0)
 
         else:
             # Get, parse, and execute player command.
@@ -33,63 +61,39 @@ class Game():
                 self.state.paused = True
                 self.state.menu = True
                 os.system("clear")
-                self.menu_mode()
             else:
                 command = command.upper()
             
-            # Refactor THIS!!
+            # Move North, East, South, or West.
+            if command in ['N', 'E', 'S', 'W']:
+                self.ninja.move_in_direction(command)
 
-            # Move North
-            if command == game_commands[0]:
-                self.ninja.move_in_direction('N')
-
-            # Move East
-            elif command == game_commands[1]:
-                self.ninja.move_in_direction('E')
-
-            # Move South
-            elif command == game_commands[2]:
-                self.ninja.move_in_direction('S')
-
-            # Move West
-            elif command == game_commands[3]:
-                self.ninja.move_in_direction('W')
-
-            # Use sword.
-            elif command == game_commands[4]:
-                self.ninja.change_weapon(3)
-                
-            # Use chucks.
-            elif command == game_commands[5]:
-                self.ninja.change_weapon(2)
-                
-            # Use stars.
-            elif command == game_commands[6]:
-                self.ninja.change_weapon(1)
+            # Use stars, chucks, or sword.
+            elif command in ['STARS, CHUCKS, SWORD']:
+                self.ninja.change_weapon(command)
                 
             # Enter building.
-            elif command == game_commands[7]:
+            elif command == 'ENTER':
                 self.ninja.enter_building()
 
             # Exit building.
-            elif command == game_commands[8]:
+            elif command == 'EXIT':
                 self.ninja.exit_building()
 
             # Attack   
-            elif command == game_commands[9]:
+            elif command == 'ATTACK':
                 self.ninja.attack(self.badguys)
             # Block
-            elif command == game_commands[10]:
+            elif command == 'BLOCK':
                 pass
 
-    # Menu mode loop for main menu operations
+    # Menu mode loop for main menu operations.
     def menu_mode(self):
         print_menu()
         command = game_prompt('Choose option (1 - 4)')
-
+        
+        # Process and act on menu option selection.
         if valid_menu_option(command):
-
-            # Process and act on menu option selection.
 
             # Resume
             if command == '1':
@@ -99,31 +103,29 @@ class Game():
 
             # New Game
             elif command == '2':
-                pass
-                #play.Start()
+                print('new games not implemented')
+                self.state.menu = False
+                #self.Start()
 
             # Save Game           
             elif command == '3':
-                pass
+                print('saving game not implemented')
 
             # Quit Game
             elif command == '4':
                 print('{}'.format(exit_message))
                 exit(0)
 
-            self.state.menu = False
 
-
-        # load file of saved game data
-        # def get_game_data
+    # load file of saved game data
+    # def get_game_data
 
 # Define various game states that change during runtime.
 class State():
     def __init__(self):
         self.paused = False
         self.saved = False
-        self.player_win = False
-        self.menu = False
+        self.menu = True
 
 
 # Define loadable saved user data specific to their game instance.
@@ -151,24 +153,16 @@ class City():
             Building(), Building(), Building()
         ]
 
-        """
-        Building index map
-
-        0 1 2
-        3 4 5
-        6 7 8
-        """
-
 # Define ninja character.
 # Accepts a city instance that is passed in in play.py.
 class Ninja():
     def __init__(self, city):
         self.city = city
         self.health = 3
-        self.weapon = 1 # 1 is stars, 2 is nunchucks, 3 is sword.
+        self.weapon = 'STARS'
         self.block_location = 4 # Starts in middle of city.
         self.inside_building = False
-
+        self.victory = False
 
     def print_location(self):
         if self.inside_building:
@@ -215,8 +209,8 @@ class Ninja():
             else:
                 self.block_location = self.block_location - 1
                 self.print_location()
-
-
+    
+    # Increase or decrase ninja health.
     def change_health(self, dec_or_inc, amt):
         amt = amt or 1
 
@@ -224,7 +218,8 @@ class Ninja():
             self.health -= amt
         else:
             self.health += amt
-
+    
+    # Ninja attack method.
     def attack(self, badguy_list):
 
         if not self.inside_building:
@@ -236,14 +231,21 @@ class Ninja():
                 list_end = len(badguy_list) - 1
                 badguy = badguy_list[list_end]
                 badguy.change_health(0, 1)
+
+                # When bad guy health reaches zero.
                 if badguy.health < 1:
                     self.city.blocks[self.block_location].has_badguy = False
                     badguy_list.pop()
-                    print('Opponent Defeated!')
+
+                    if self.city.blocks[self.block_location].has_goldensword:
+                        self.victory = True
+                    else:
+                        print('Opponent Defeated!')
 
     def block_attack(self):
         pass
-
+    
+    # Ninja enter building.
     def enter_building(self):
         if self.inside_building == True:
             print('You are already inside a building!')
@@ -268,7 +270,8 @@ class Ninja():
             # If building has a bad guy.
             if self.city.blocks[self.block_location].has_badguy:
                 print('You there! Prepare to bleed!')
-
+    
+    # Ninja exit building.
     def exit_building(self):
         if self.inside_building == False:
             print('You are not in a building!')
@@ -280,9 +283,9 @@ class Ninja():
                 self.inside_building = False
                 self.print_location()
     
-    # Weapon arg is either 1, 2, or 3
-    def change_weapon(self, weapon_num):
-        if self.weapon == weapon_num:
+    # Ninja change weapon.
+    def change_weapon(self, weapon):
+        if self.weapon == weapon:
             print('You are already using that weapon!')
         else:
             self.weapon = weapon
@@ -410,12 +413,10 @@ star_line = star_line*12
 # Dialogue text.
 author = '       By Brett Fraley - 2016       '
 menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
-game_commands = ['N', 'E', 'S', 'W', 'SWORD', 'CHUCKS', 'STAR',
-                    'ENTER', 'EXIT', 'ATTACK', 'BLOCK']
 exit_message = 'Thank you for playing lexninja, have a nice day!\n'
+win_message = 'CONGRATULATIONS, THE ANCIENT GOLDEN SWORD IS YOURS!!'
 warn_exit_building = 'You must first exit the building!\n'
 warn_invalid_direction = 'You cannot move further in that direction!'
-
 
 # Logo is a list of lines used in print_logo below.
 logo = [
@@ -452,12 +453,12 @@ def print_game_commands():
         print('{} '.format(command))
 
 
-def print_weapon(weapon_num):   
-    if weapon_num == 3:
+def print_weapon(weapon_string):   
+    if weapon_num == 'SWORD':
         print('Now using SWORD')
-    elif weapon_num == 2:
+    elif weapon_num == 'CHUCKS':
         print('Now using CHUCKS')
-    elif weapon_num == 1:
+    elif weapon_num == 'STARS':
         print('Now using STARS')
 
 
