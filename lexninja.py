@@ -42,7 +42,7 @@ class Game():
             badguys.append(Badguy(self.city))
     
         return badguys
-        
+
     # Command mode prompt loop for player moves.
     def command_mode(self):
         if self.state.menu:
@@ -69,7 +69,7 @@ class Game():
                 self.ninja.move_in_direction(command)
 
             # Use stars, chucks, or sword.
-            elif command in ['STARS, CHUCKS, SWORD']:
+            elif command in ['STARS', 'CHUCKS', 'SWORD']:
                 self.ninja.change_weapon(command)
                 
             # Enter building.
@@ -289,7 +289,7 @@ class Ninja():
             print('You are already using that weapon!')
         else:
             self.weapon = weapon
-            print_weapon()
+            print_weapon(self.weapon)
 
 # Define bad guy character.
 # Accepts a city instance that is passed in in play.py.
@@ -454,11 +454,11 @@ def print_game_commands():
 
 
 def print_weapon(weapon_string):   
-    if weapon_num == 'SWORD':
+    if weapon_string == 'SWORD':
         print('Now using SWORD')
-    elif weapon_num == 'CHUCKS':
+    elif weapon_string == 'CHUCKS':
         print('Now using CHUCKS')
-    elif weapon_num == 'STARS':
+    elif weapon_string == 'STARS':
         print('Now using STARS')
 
 
