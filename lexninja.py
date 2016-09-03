@@ -57,18 +57,16 @@ class Game():
 
             # Use sword.
             elif command == game_commands[4]:
-                self.ninja.weapon = 3
-                print('Using weapon: {}'.format(self.ninja.weapon))
-
+                self.ninja.change_weapon(3)
+                
             # Use chucks.
             elif command == game_commands[5]:
-                self.ninja.weapon = 2
-                print('Using weapon: {}'.format(self.ninja.weapon))
+                self.ninja.change_weapon(2)
+                
             # Use stars.
             elif command == game_commands[6]:
-                self.ninja.weapon = 1
-                print('Using weapon: {}'.format(self.ninja.weapon))
-
+                self.ninja.change_weapon(1)
+                
             # Enter building.
             elif command == game_commands[7]:
                 self.ninja.enter_building()
@@ -79,7 +77,7 @@ class Game():
 
             # Attack   
             elif command == game_commands[9]:
-                self.badguys[self.ninja.block_location - 1].change_health(0, 1)
+                self.ninja.attack(self.badguys)
             # Block
             elif command == game_commands[10]:
                 pass
@@ -219,7 +217,6 @@ class Ninja():
                 self.print_location()
 
 
-
     def change_health(self, dec_or_inc, amt):
         amt = amt or 1
 
@@ -228,22 +225,68 @@ class Ninja():
         else:
             self.health += amt
 
-    def attack(self):
-        pass    
+    def attack(self, badguy_list):
+
+        if not self.inside_building:
+            print('You are outside, and there is no one to attack!')
+        else:
+            if not self.city.blocks[self.block_location].has_badguy:
+                print('There is no one here to attack!')
+            else:
+                list_end = len(badguy_list) - 1
+                badguy = badguy_list[list_end]
+                badguy.change_health(0, 1)
+                if badguy.health < 1:
+                    self.city.blocks[self.block_location].has_badguy = False
+                    badguy_list.pop()
+                    print('Opponent Defeated!')
 
     def block_attack(self):
         pass
 
     def enter_building(self):
-        self.inside_building = True
+        if self.inside_building == True:
+            print('You are already inside a building!')
+
+        else:
+            self.inside_building = True
+            self.print_location()
+
+            if self.city.blocks[self.block_location].has_health:
+                self.change_health(1, 1)
+                print('+1 Health Boost!!!')
+                print('HEALTH: {}'.format(self.health))
+
+                # Remove the health item!
+                self.city.blocks[self.block_location].has_health = False
+
+            # If building has golden sword.
+            if self.city.blocks[self.block_location].has_goldensword:
+                print('You have found the ancient golden sword!')
+                print('Defeat the boss to complete the mission!')
+
+            # If building has a bad guy.
+            if self.city.blocks[self.block_location].has_badguy:
+                print('You there! Prepare to bleed!')
 
     def exit_building(self):
-        self.inside_building = False
+        if self.inside_building == False:
+            print('You are not in a building!')
+        else:
+            if self.city.blocks[self.block_location].has_badguy:
+                print('Where do you think you are going?')
+                print('Now stay and fight, coward!')
+            else:
+                self.inside_building = False
+                self.print_location()
     
     # Weapon arg is either 1, 2, or 3
-    def change_weapon(self, weapon):
-        self.weapon = weapon
-
+    def change_weapon(self, weapon_num):
+        if self.weapon == weapon_num:
+            print('You are already using that weapon!')
+        else:
+            self.weapon = weapon
+            print_weapon()
 
 # Define bad guy character.
 # Accepts a city instance that is passed in in play.py.
@@ -407,6 +450,15 @@ def print_menu():
 def print_game_commands():
     for command in game_commands:
         print('{} '.format(command))
+
+
+def print_weapon(weapon_num):   
+    if weapon_num == 3:
+        print('Now using SWORD')
+    elif weapon_num == 2:
+        print('Now using CHUCKS')
+    elif weapon_num == 1:
+        print('Now using STARS')
 
 
 

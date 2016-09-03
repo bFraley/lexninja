@@ -41,9 +41,12 @@ def Start():
     # Enter game loop.
     RUN = True
 
-    #lexninja.print_logo()
-    #lexninja.print_menu()
+    lexninja.print_logo()
 
     while RUN:
         game.command_mode()
+
+
+
+Start()
         
