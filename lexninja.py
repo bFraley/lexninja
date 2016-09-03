@@ -452,14 +452,6 @@ def print_game_commands():
     for command in game_commands:
         print('{} '.format(command))
 
-
-def print_weapon(weapon_string):   
-    if weapon_string == 'SWORD':
-        print('Now using SWORD')
-    elif weapon_string == 'CHUCKS':
-        print('Now using CHUCKS')
-    elif weapon_string == 'STARS':
-        print('Now using STARS')
-
-
-
+# Print message for weapon changes.
+def print_weapon(weapon_string):
+    print('Now using {}'.format(weapon_string))
