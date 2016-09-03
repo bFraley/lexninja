@@ -18,6 +18,8 @@ def Start():
             # Resume
             if command == '1':
                 state.paused = False
+                state.menu = False
+                command_mode()
 
             # New Game
             elif command == '2':
@@ -37,8 +39,6 @@ def Start():
     
     #lexninja.print_logo()
     #lexninja.print_menu()
-
-    RUN = True
 
     # game = Game(city, ninja, badguys)
 
@@ -63,43 +63,44 @@ def Start():
         if not building.has_badguy:
             building.has_health = True
 
-    # Instantiate and Enter Ninja
+    # Instantiate the ninja character.
+    ninja = lexninja.Ninja(city)
 
-
-
-    # Enter game loop.
-    while RUN:
+    def command_mode():
         if state.menu:
             menu_mode()
 
         else:
+            # Get, parse, and execute player command.
             command = lexninja.game_prompt('Next move: ')
 
-            # Parse and carry out player's commands.
+            # If command is enter, or nothing, enter menu mode.
             if command == '' or len(command) == 0:
                 state.paused = True
                 state.menu = True
                 os.system("clear")
                 lexninja.print_menu()
                 menu_mode()
+            else:
+                command = command.upper()
             
             # Refactor THIS!!
 
             # Move North
-            elif command == lexninja.game_commands[0]:
-                lexninja.move_in_direction('N')
+            if command == lexninja.game_commands[0]:
+                ninja.move_in_direction('N')
 
             # Move East
             elif command == lexninja.game_commands[1]:
-                lexninja.move_in_direction('E')
+                ninja.move_in_direction('E')
 
             # Move South
             elif command == lexninja.game_commands[2]:
-                lexninja.move_in_direction('S')
+                ninja.move_in_direction('S')
 
             # Move West
             elif command == lexninja.game_commands[3]:
-                lexninja.move_in_direction('W')
+                ninja.move_in_direction('W')
 
             # Use sword.
             elif command == lexninja.game_commands[4]:
@@ -122,4 +123,12 @@ def Start():
             # Block
             elif command == lexninja.game_commands[10]:
                 pass
+
+
+    # Enter game loop.
+    RUN = True
+
+    while RUN:
+        command_mode()
+        
 

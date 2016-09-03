@@ -83,62 +83,53 @@ class Ninja():
     def move_in_direction(self, direction):
         self.direction = direction
 
-        if direction == 'N':
-            if ninja_is_inside(self):
-                print(warn_exit_building)
+        if ninja_is_inside(self):
+            print(warn_exit_building)
 
-            elif ninja_on_edge(self, [0, 1, 2]):
+        elif direction == 'N':
+            
+            if ninja_on_edge(self, [0, 1, 2]):
                 print(warn_invalid_direction)
-
             else:
                 self.block_location = self.block_location - 3
                 self.print_location()
 
         elif direction == 'E':
-            if ninja_is_inside(self):
-                print(warn_exit_building)
 
-            elif ninja_on_edge(self, [2, 5, 8]):
+            if ninja_on_edge(self, [2, 5, 8]):
                 print(warn_invalid_direction)
-
             else:
                 self.block_location = self.block_location + 1
                 self.print_location()
 
         elif direction == 'S':
-            if ninja_is_inside(self):
-                print(warn_exit_building)
 
-            elif ninja_on_edge(self, [6, 7, 8]):
+            if ninja_on_edge(self, [6, 7, 8]):
                 print(warn_invalid_direction)
-
             else:
                 self.block_location = self.block_location + 3
                 self.print_location()
             
         elif direction == 'W':
-            if ninja_is_inside(self):
-                print(warn_exit_building)
 
-            elif ninja_on_edge(self, [0, 3, 6]):
+            if ninja_on_edge(self, [0, 3, 6]):
                 print(warn_invalid_direction)
-
             else:
                 self.block_location = self.block_location - 1
                 self.print_location()
 
 
     def attack(self):
-        pass
+        pass    
 
     def block_attack(self):
         pass
 
     def enter_building(self):
-        pass
+        self.inside_building = True
 
     def exit_building(self):
-        pass
+        self.inside_building = False
     
     # Weapon arg is either 1, 2, or 3
     def change_weapon(self, weapon):
@@ -162,21 +153,24 @@ class Badguy():
 # Functions Definitions
 # ----------------------------------------------------------------------------
 
-# Game initial logic functions.
+# Game logic functions.
 # -----------------------------
 
 # Choose which building 'Ancient Golden Sword' is in.
 def new_golden_sword_index():
-    return randint(0, 8)
+    golden_sword_location = randint(0, 8)
+    print('Ancient Golden Sword located at {}'.format(golden_sword_location))
+    return golden_sword_location
 
 # Choose which 5 buildings bad guys will occupy.
 # Ignoring the 'boss' building for now.
 def new_badguy_indexlist():
-    return_list = []
+    badguy_location_list = []
     for i in range(0, 5):
-        return_list.append(randint(0, 8))
-
-    return return_list
+        badguy_location_list.append(randint(0, 8))
+    
+    print('Bad guys located in buildings {}'.format(badguy_location_list))
+    return badguy_location_list
 
 # User command input functions.
 # ----------------------------
