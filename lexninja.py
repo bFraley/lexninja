@@ -1,6 +1,7 @@
 # lexninja text-adventure game - Brett Fraley - 2016
 # Class definitions, functions and global values for lexninja.
 
+import os
 from random import randint
 import utils
 
@@ -10,11 +11,110 @@ import utils
 
 # An instance of a game, which could be new or loaded from saved game data.
 class Game():
-    def __init__(self, city_t, ninja_t, badguys_t, datafile):
-        self.datafile = datafile or None
+    def __init__(self, city_t, ninja_t, badguys_t, state_t):
+        # self.datafile = datafile or None
         self.city = city_t
         self.ninja = ninja_t
         self.badguys = badguys_t
+        self.state = state_t
+
+    
+    # Command mode prompt loop for player moves.
+    def command_mode(self):
+        if self.state.menu:
+            self.menu_mode()
+
+        else:
+            # Get, parse, and execute player command.
+            command = game_prompt('Next move: ')
+
+            # If command is enter, or nothing, enter menu mode.
+            if command == '' or len(command) == 0:
+                self.state.paused = True
+                self.state.menu = True
+                os.system("clear")
+                self.menu_mode()
+            else:
+                command = command.upper()
+            
+            # Refactor THIS!!
+
+            # Move North
+            if command == game_commands[0]:
+                self.ninja.move_in_direction('N')
+
+            # Move East
+            elif command == game_commands[1]:
+                self.ninja.move_in_direction('E')
+
+            # Move South
+            elif command == game_commands[2]:
+                self.ninja.move_in_direction('S')
+
+            # Move West
+            elif command == game_commands[3]:
+                self.ninja.move_in_direction('W')
+
+            # Use sword.
+            elif command == game_commands[4]:
+                self.ninja.weapon = 3
+                print('Using weapon: {}'.format(self.ninja.weapon))
+
+            # Use chucks.
+            elif command == game_commands[5]:
+                self.ninja.weapon = 2
+                print('Using weapon: {}'.format(self.ninja.weapon))
+            # Use stars.
+            elif command == game_commands[6]:
+                self.ninja.weapon = 1
+                print('Using weapon: {}'.format(self.ninja.weapon))
+
+            # Enter building.
+            elif command == game_commands[7]:
+                self.ninja.enter_building()
+
+            # Exit building.
+            elif command == game_commands[8]:
+                self.ninja.exit_building()
+
+            # Attack   
+            elif command == game_commands[9]:
+                self.badguys[self.ninja.block_location - 1].change_health(0, 1)
+            # Block
+            elif command == game_commands[10]:
+                pass
+
+    # Menu mode loop for main menu operations
+    def menu_mode(self):
+        print_menu()
+        command = game_prompt('Choose option (1 - 4)')
+
+        if valid_menu_option(command):
+
+            # Process and act on menu option selection.
+
+            # Resume
+            if command == '1':
+                self.state.paused = False
+                self.state.menu = False
+                self.command_mode()
+
+            # New Game
+            elif command == '2':
+                pass
+                #play.Start()
+
+            # Save Game           
+            elif command == '3':
+                pass
+
+            # Quit Game
+            elif command == '4':
+                print('{}'.format(exit_message))
+                exit(0)
+
+            self.state.menu = False
+
 
         # load file of saved game data
         # def get_game_data
@@ -119,6 +219,15 @@ class Ninja():
                 self.print_location()
 
 
+
+    def change_health(self, dec_or_inc, amt):
+        amt = amt or 1
+
+        if not dec_or_inc:
+            self.health -= amt
+        else:
+            self.health += amt
+
     def attack(self):
         pass    
 
@@ -143,6 +252,16 @@ class Badguy():
         self.city = city
         self.health = 3
         self.boss = False
+
+    # Decrease or increase health.
+    # 0 to decrease or 1 to increase, amt
+    def change_health(self, dec_or_inc, amt):
+        amt = amt or 1
+
+        if not dec_or_inc:
+            self.health -= amt
+        else:
+            self.health += amt
 
     def attack(self):
         pass
