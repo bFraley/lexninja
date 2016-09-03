@@ -54,7 +54,7 @@ class Game():
 
         else:
             # Get, parse, and execute player command.
-            command = game_prompt('Next move: ')
+            command = game_prompt('\nNext move: ')
 
             # If command is enter, or nothing, enter menu mode.
             if command == '' or len(command) == 0:
@@ -90,7 +90,7 @@ class Game():
     # Menu mode loop for main menu operations.
     def menu_mode(self):
         print_menu()
-        command = game_prompt('Choose option (1 - 4)')
+        command = game_prompt('Choose option (1 - 4)\n')
         
         # Process and act on menu option selection.
         if valid_menu_option(command):
@@ -99,6 +99,8 @@ class Game():
             if command == '1':
                 self.state.paused = False
                 self.state.menu = False
+                os.system("clear")
+                print('\nYour mission awaits!!!\n')
                 self.command_mode()
 
             # New Game
@@ -324,18 +326,18 @@ class Badguy():
 # Choose which building 'Ancient Golden Sword' is in.
 def new_golden_sword_index():
     golden_sword_location = randint(0, 8)
-    print('Ancient Golden Sword located at {}'.format(golden_sword_location))
     return golden_sword_location
 
 # Choose which 5 buildings bad guys will occupy.
-# Ignoring the 'boss' building for now.
 def new_badguy_indexlist():
     badguy_location_list = []
     for i in range(0, 5):
         badguy_location_list.append(randint(0, 8))
     
-    print('Bad guys located in buildings {}'.format(badguy_location_list))
     return badguy_location_list
+
+# Implement 50% chance that a bad guy blocks player's attack.
+
 
 # User command input functions.
 # ----------------------------
@@ -428,6 +430,9 @@ logo = [
     '                         |__/'
 ]
 
+# Printing helper functions
+# -------------------------
+
 # Print game logo.
 def print_logo():
     os.system("clear")
@@ -446,6 +451,8 @@ def print_menu():
     while i <= len(menu_options):
         print('{} {}. {}'.format(dharma, i, menu_options[i - 1]))
         i = i + 1
+
+    print()
 
 # Print the game commands.
 def print_game_commands():
