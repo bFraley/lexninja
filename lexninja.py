@@ -560,8 +560,57 @@ def print_help():
     for command in game_commands:
         print('        {}    {}'.format(yinyang, command))
 
+# Insert sword character to city map strings.
+def convert_city_map(row, block):
+    visited = 0
+    target = ''
+
+    # Update prior location with yin yang.
+    if swords in city_map[2]:
+        target = list(city_map[2])
+        visited = target.index(swords)
+        target[visited] = yinyang
+        city_map[2] = ''.join(target)
+
+    elif swords in city_map[5]:
+        target = list(city_map[5])
+        visited = target.index(swords)
+        target[visited] = yinyang
+        city_map[5] = ''.join(target)
+
+    elif swords in city_map[8]:
+        target = list(city_map[8])
+        visited = target.index(swords)
+        target[visited] = yinyang
+        city_map[8] = ''.join(target)
+    
+    # Update current location.
+    city_map[row] = list(city_map[row])
+    city_map[row][block] = swords
+    city_map[row] = ''.join(city_map[row])
+
 # Print city map.
-def print_map():
+def print_map(ninja_self):
+    loc = ninja_self.block_location + 1
+    if loc == 1:
+        convert_city_map(2, 3)
+    elif loc == 2:
+        convert_city_map(2, 14)
+    elif loc == 3:
+        convert_city_map(2, 25)
+    elif loc == 4:
+        convert_city_map(5, 3)
+    elif loc == 5:
+        convert_city_map(5, 14)
+    elif loc == 6:
+        convert_city_map(5, 25)
+    elif loc == 7:
+        convert_city_map(8, 3)
+    elif loc == 8:
+        convert_city_map(8, 14)
+    elif loc == 9:
+        convert_city_map(8, 25)
+
     for line in city_map:
         print(line)
 
