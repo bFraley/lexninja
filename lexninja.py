@@ -17,6 +17,7 @@ class Game():
         self.ninja = Ninja(self.city)
         self.badguys = self.get_badguys()
         self.hide_sword()
+        self.hide_healths()
 
     # Hide the ancient golden sword in a building.
     def hide_sword(self):
@@ -123,7 +124,15 @@ class Game():
 
             # New Game
             elif command == '2':
-                print('new games not implemented')
+                reset_city_map()
+                self.state = State()
+                self.city = City()
+                self.ninja = Ninja(self.city)
+                self.badguys = self.get_badguys()
+                self.hide_sword()
+                self.hide_healths()
+                print_logo()
+                print_help()
                 self.state.menu = False
                 #self.Start()
 
@@ -205,6 +214,8 @@ class Ninja():
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location - 3
+                os.system("clear")
+                print_map(self)
                 self.print_location()
 
         elif direction == 'E':
@@ -212,6 +223,8 @@ class Ninja():
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location + 1
+                os.system("clear")
+                print_map(self)
                 self.print_location()
 
         elif direction == 'S':
@@ -219,6 +232,8 @@ class Ninja():
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location + 3
+                os.system("clear")
+                print_map(self)
                 self.print_location()
             
         elif direction == 'W':
@@ -226,7 +241,10 @@ class Ninja():
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location - 1
+                os.system("clear")
+                print_map(self)
                 self.print_location()
+
     
     # Increase or decrase ninja health.
     def change_health(self, dec_or_inc, amt):
@@ -296,7 +314,8 @@ class Ninja():
                 # Did ninja defeat the boss?
                 elif self.city.blocks[self.block_location].has_goldensword:
                     self.beat_boss = True
-                    print('BOSS DEFEATED!!')
+                    self.city.blocks[self.block_location].has_goldensword = False
+                    print('\nBOSS DEFEATED!!')
                     print('You have retreived the golden sword!')
 
                     if len(badguy_list) > 0:
@@ -304,17 +323,16 @@ class Ninja():
                         print('{} left! Take them out!'.format(len(badguy_list)))
                 else:
                     # Normal bad guy defeated.
-                    os.system("clear")
-                    print('Opponent Defeated!')
+                    print('\nOpponent Defeated!')
                         
     def block_attack(self):
         pass
     
     # Ninja enter building.
     def enter_building(self):
+
         if self.inside_building == True:
             print('You are already inside a building!')
-
         else:
             self.inside_building = True
             self.print_location()
@@ -406,6 +424,7 @@ def new_badguy_indexlist():
 # Implement 1 in 3 chance that a bad guy blocks player's attack.
 def get_random_block_attack():
     result = randint(-1, 1)
+    return result
 
 # User command input functions.
 # ----------------------------
@@ -543,7 +562,6 @@ def print_logo():
 
     print('{}\n{}\n{}\n'.format(sword_line, yinyang_line, author))
 
-
 # Print main menu.
 def print_menu():
     print('\n{}\n'.format(star_line))
@@ -560,8 +578,18 @@ def print_help():
     for command in game_commands:
         print('        {}    {}'.format(yinyang, command))
 
+
+# Reset city map
+def reset_city_map():
+    for line in city_map:
+        target = list(line)
+        if yinyang in target:
+            toremove = target.index(yinyang)
+            target[toremove] = ''
+            line = ''.join(target)
+
 # Insert sword character to city map strings.
-def convert_city_map(row, block):
+def update_city_map(row, block):
     visited = 0
     target = ''
 
@@ -593,23 +621,23 @@ def convert_city_map(row, block):
 def print_map(ninja_self):
     loc = ninja_self.block_location + 1
     if loc == 1:
-        convert_city_map(2, 3)
+        update_city_map(2, 3)
     elif loc == 2:
-        convert_city_map(2, 14)
+        update_city_map(2, 14)
     elif loc == 3:
-        convert_city_map(2, 25)
+        update_city_map(2, 25)
     elif loc == 4:
-        convert_city_map(5, 3)
+        update_city_map(5, 3)
     elif loc == 5:
-        convert_city_map(5, 14)
+        update_city_map(5, 14)
     elif loc == 6:
-        convert_city_map(5, 25)
+        update_city_map(5, 25)
     elif loc == 7:
-        convert_city_map(8, 3)
+        update_city_map(8, 3)
     elif loc == 8:
-        convert_city_map(8, 14)
+        update_city_map(8, 14)
     elif loc == 9:
-        convert_city_map(8, 25)
+        update_city_map(8, 25)
 
     for line in city_map:
         print(line)
