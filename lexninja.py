@@ -99,7 +99,7 @@ class Game():
             elif command == 'MAP':
                 os.system("clear")
                 self.ninja.print_location()
-                print_map()
+                print_map(self.ninja)
 
             else:
                 print('Invalid command. Type help or try again.')
