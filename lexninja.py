@@ -36,10 +36,16 @@ class Game():
 
         # Empty list container for the 5 instances of Badguy
         badguys = []
-
+        
+        # For each bad guy's building index, append to badguys list.
         for i in badguy_index:
             self.city.blocks[i].has_badguy = True
             badguys.append(Badguy(self.city))
+
+            # Assign the boss of the building that has golden sword.
+            if self.city.blocks[i].has_goldensword:
+                badguys[i].is_boss = True
+                badguys[i].health = 6
     
         return badguys
 
@@ -48,7 +54,7 @@ class Game():
         if self.state.menu:
             self.menu_mode()
 
-        elif self.ninja.victory == True:
+        elif self.ninja.win_game == True:
             print(win_message)
             exit(0)
 
@@ -118,7 +124,6 @@ class Game():
                 print('{}'.format(exit_message))
                 exit(0)
 
-
     # load file of saved game data
     # def get_game_data
 
@@ -164,15 +169,16 @@ class Ninja():
         self.weapon = 'STARS'
         self.block_location = 4 # Starts in middle of city.
         self.inside_building = False
-        self.victory = False
-
+        self.win_game = False
+        self.beat_boss = False
+    
+    # Print ninja location.
     def print_location(self):
         if self.inside_building:
             print('Inside Building: {}'.format(self.block_location + 1))
         else:
             print('City Block: {}'.format(self.block_location + 1))
         
-
     # Move the ninja 1 city block in the direction intended by the player.
     def move_in_direction(self, direction):
         self.direction = direction
@@ -180,8 +186,7 @@ class Ninja():
         if ninja_is_inside(self):
             print(warn_exit_building)
 
-        elif direction == 'N':
-            
+        elif direction == 'N':      
             if ninja_on_edge(self, [0, 1, 2]):
                 print(warn_invalid_direction)
             else:
@@ -189,7 +194,6 @@ class Ninja():
                 self.print_location()
 
         elif direction == 'E':
-
             if ninja_on_edge(self, [2, 5, 8]):
                 print(warn_invalid_direction)
             else:
@@ -197,7 +201,6 @@ class Ninja():
                 self.print_location()
 
         elif direction == 'S':
-
             if ninja_on_edge(self, [6, 7, 8]):
                 print(warn_invalid_direction)
             else:
@@ -205,7 +208,6 @@ class Ninja():
                 self.print_location()
             
         elif direction == 'W':
-
             if ninja_on_edge(self, [0, 3, 6]):
                 print(warn_invalid_direction)
             else:
@@ -223,27 +225,70 @@ class Ninja():
     
     # Ninja attack method.
     def attack(self, badguy_list):
-
+        
+        # Can't attack if not inside building.
         if not self.inside_building:
             print('You are outside, and there is no one to attack!')
+
+        # Inside, but no bad guy to attack.    
+        elif not self.city.blocks[self.block_location].has_badguy:
+            print('There is no one here to attack!')
+
+        # Execute attack.
         else:
-            if not self.city.blocks[self.block_location].has_badguy:
-                print('There is no one here to attack!')
+
+            list_end = len(badguy_list) - 1
+            badguy = badguy_list[list_end]
+
+            # If ninja is facing boss!
+            if self.city.blocks[self.block_location].has_goldensword:
+
+                # Assign boss at end of bad guy list.
+                for guy in badguy_list:
+                    if guy.is_boss:
+                        badguy_list[list_end] = guy
+                        badguy = badguy_list[list_end]
+                    
+                # Boss only damaged by sword.
+                if not self.weapon == 'SWORD':
+                    print('The boss is immune to stars and chucks!')
+
+                else:
+                    # Decrement boss health if not blocked.
+                    if not badguy.block_attack():
+                        badguy.change_health(0, 1)
             else:
-                list_end = len(badguy_list) - 1
-                badguy = badguy_list[list_end]
-                badguy.change_health(0, 1)
+                # Bad guy is not boss.
+                # If ninja already beat the boss then they
+                # have the golden sword. So if ninja is using 
+                # sword, decrement bad guy health to zero.
+                if self.beat_boss and self.weapon == 'SWORD':
+                    badguy.health = 0
+                else:
+                    if not badguy.block_attack():
+                        badguy.change_health(0, 1)
 
-                # When bad guy health reaches zero.
-                if badguy.health < 1:
-                    self.city.blocks[self.block_location].has_badguy = False
-                    badguy_list.pop()
+            # When bad guy health reaches zero.
+            if badguy.health < 1:
+                self.city.blocks[self.block_location].has_badguy = False
+                badguy_list.pop()
+                print('Opponent Defeated!')
 
-                    if self.city.blocks[self.block_location].has_goldensword:
-                        self.victory = True
-                    else:
-                        print('Opponent Defeated!')
+                # Are all badguys defeated ?
 
+                if len(badguy_list) < 1:
+                    self.win_game = True
+
+                # Did ninja defeat the boss?
+                elif self.city.blocks[self.block_location].has_goldensword:
+                    self.beat_boss = True
+                    print('BOSS DEFEATED!!')
+                    print('You have retreived the golden sword!')
+
+                    if len(badguy_list) > 0:
+                        print('Defeat remaining bad guys to complete your mission.')
+                        print('{} left! Take them out!'.format(len(badguy_list)))
+                        
     def block_attack(self):
         pass
     
@@ -299,7 +344,7 @@ class Badguy():
     def __init__(self, city):
         self.city = city
         self.health = 3
-        self.boss = False
+        self.is_boss = False
 
     # Decrease or increase health.
     # 0 to decrease or 1 to increase, amt
@@ -315,7 +360,11 @@ class Badguy():
         pass
 
     def block_attack(self):
-        pass
+        if get_random_block_attack():
+            print('Your attack was blocked!!!')
+            return True
+        else:
+            return False
 
 # Functions Definitions
 # ----------------------------------------------------------------------------
@@ -331,13 +380,14 @@ def new_golden_sword_index():
 # Choose which 5 buildings bad guys will occupy.
 def new_badguy_indexlist():
     badguy_location_list = []
-    for i in range(0, 5):
+    for i in range(0, 4):
         badguy_location_list.append(randint(0, 8))
     
     return badguy_location_list
 
-# Implement 50% chance that a bad guy blocks player's attack.
-
+# Implement 1 in 3 chance that a bad guy blocks player's attack.
+def get_random_block_attack():
+    result = randint(-1, 1)
 
 # User command input functions.
 # ----------------------------
@@ -354,6 +404,7 @@ def valid_menu_option(option):
     if option in ['1', '2', '3', '4']:
         return True
     else:
+        os.system("clear")
         print('Unrecognized menu option. Try again.')
         return False
 
@@ -416,7 +467,7 @@ star_line = star_line*12
 author = '       By Brett Fraley - 2016       '
 menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
 exit_message = 'Thank you for playing lexninja, have a nice day!\n'
-win_message = 'CONGRATULATIONS, THE ANCIENT GOLDEN SWORD IS YOURS!!'
+win_message = 'CONGRATULATIONS, MISSION COMPLETE! YOU HAVE EARNED GREAT HONOR!\n'
 warn_exit_building = 'You must first exit the building!\n'
 warn_invalid_direction = 'You cannot move further in that direction!'
 
