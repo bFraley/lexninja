@@ -75,7 +75,7 @@ class Game():
                 self.ninja.move_in_direction(command)
 
             # Use stars, chucks, or sword.
-            elif command in ['STARS', 'CHUCKS', 'SWORD']:
+            elif command in ['STARS', 'CHAKU', 'SWORD']:
                 self.ninja.change_weapon(command)
                 
             # Enter building.
@@ -92,6 +92,11 @@ class Game():
             # Block
             elif command == 'BLOCK':
                 pass
+            # Help
+            elif command == 'HELP':
+                print_help()
+            else:
+                print('Invalid command. Type help or try again.')
 
     # Menu mode loop for main menu operations.
     def menu_mode(self):
@@ -107,6 +112,7 @@ class Game():
                 self.state.menu = False
                 os.system("clear")
                 print('\nYour mission awaits!!!\n')
+                print_help()
                 self.command_mode()
 
             # New Game
@@ -121,6 +127,8 @@ class Game():
 
             # Quit Game
             elif command == '4':
+                os.system("clear")
+                print_logo()
                 print('{}'.format(exit_message))
                 exit(0)
 
@@ -251,12 +259,13 @@ class Ninja():
                     
                 # Boss only damaged by sword.
                 if not self.weapon == 'SWORD':
-                    print('The boss is immune to stars and chucks!')
+                    print('The boss is immune to stars and nanchaku!')
 
                 else:
                     # Decrement boss health if not blocked.
                     if not badguy.block_attack():
                         badguy.change_health(0, 1)
+                        print("Successful attack!")
             else:
                 # Bad guy is not boss.
                 # If ninja already beat the boss then they
@@ -267,15 +276,14 @@ class Ninja():
                 else:
                     if not badguy.block_attack():
                         badguy.change_health(0, 1)
+                        print("Successful attack!")
 
             # When bad guy health reaches zero.
             if badguy.health < 1:
                 self.city.blocks[self.block_location].has_badguy = False
                 badguy_list.pop()
-                print('Opponent Defeated!')
-
+                
                 # Are all badguys defeated ?
-
                 if len(badguy_list) < 1:
                     self.win_game = True
 
@@ -288,6 +296,10 @@ class Ninja():
                     if len(badguy_list) > 0:
                         print('Defeat remaining bad guys to complete your mission.')
                         print('{} left! Take them out!'.format(len(badguy_list)))
+                else:
+                    # Normal bad guy defeated.
+                    os.system("clear")
+                    print('Opponent Defeated!')
                         
     def block_attack(self):
         pass
@@ -470,6 +482,20 @@ exit_message = 'Thank you for playing lexninja, have a nice day!\n'
 win_message = 'CONGRATULATIONS, MISSION COMPLETE! YOU HAVE EARNED GREAT HONOR!\n'
 warn_exit_building = 'You must first exit the building!\n'
 warn_invalid_direction = 'You cannot move further in that direction!'
+game_commands = [
+    'COMMAND            WHAT IT DOES',
+    '________________________________',
+    'N         Move 1 block North.',
+    'W         Move 1 block West.',
+    'S         Move 1 block South',
+    'E         Move 1 block East',
+    'SWORD     Change weapon to sword.',
+    'STARS     Change weapon to throwing stars.',
+    'CHAKU     Change weapon to nanchaku',
+    'ATTACK    Attack bad guy',
+    'BLOCK     Not yet implemented',
+    'HELP      View the game commands'
+]
 
 # Logo is a list of lines used in print_logo below.
 logo = [
@@ -505,10 +531,11 @@ def print_menu():
 
     print()
 
-# Print the game commands.
-def print_game_commands():
+# Print the game command help.
+def print_help():
+    os.system("clear")
     for command in game_commands:
-        print('{} '.format(command))
+        print('        {}    {}'.format(yinyang, command))
 
 # Print message for weapon changes.
 def print_weapon(weapon_string):
