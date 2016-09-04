@@ -95,6 +95,12 @@ class Game():
             # Help
             elif command == 'HELP':
                 print_help()
+            # Map
+            elif command == 'MAP':
+                os.system("clear")
+                self.ninja.print_location()
+                print_map()
+
             else:
                 print('Invalid command. Type help or try again.')
 
@@ -482,6 +488,20 @@ exit_message = 'Thank you for playing lexninja, have a nice day!\n'
 win_message = 'CONGRATULATIONS, MISSION COMPLETE! YOU HAVE EARNED GREAT HONOR!\n'
 warn_exit_building = 'You must first exit the building!\n'
 warn_invalid_direction = 'You cannot move further in that direction!'
+
+city_map = [
+    '-------    -------    -------',
+    '[  1  ]    [  2  ]    [  3  ]',
+    '[     ]    [     ]    [     ]',
+    '-------    -------    -------',
+    '[  4  ]    [  5  ]    [  6  ]',
+    '[     ]    [     ]    [     ]',
+    '-------    -------    -------',
+    '[  7  ]    [  8  ]    [  9  ]',
+    '[     ]    [     ]    [     ]',
+    '-------    -------    -------'
+]
+
 game_commands = [
     'COMMAND            WHAT IT DOES',
     '________________________________',
@@ -489,11 +509,14 @@ game_commands = [
     'W         Move 1 block West.',
     'S         Move 1 block South',
     'E         Move 1 block East',
+    'ENTER     Enter building.',
+    'EXIT      Exit building.',
     'SWORD     Change weapon to sword.',
     'STARS     Change weapon to throwing stars.',
-    'CHAKU     Change weapon to nanchaku',
-    'ATTACK    Attack bad guy',
-    'BLOCK     Not yet implemented',
+    'CHAKU     Change weapon to nanchaku.',
+    'ATTACK    Attack bad guy.',
+    'BLOCK     Not yet implemented.',
+    'MAP       View location on map.',
     'HELP      View the game commands'
 ]
 
@@ -536,6 +559,13 @@ def print_help():
     os.system("clear")
     for command in game_commands:
         print('        {}    {}'.format(yinyang, command))
+
+# Print city map.
+def print_map():
+    for line in city_map:
+        print(line)
+
+    print()
 
 # Print message for weapon changes.
 def print_weapon(weapon_string):
