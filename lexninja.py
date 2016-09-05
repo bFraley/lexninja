@@ -55,11 +55,40 @@ class Game():
         if self.state.menu:
             self.menu_mode()
 
-        elif self.ninja.win_game == True:
+        # Player won the game.
+        elif self.ninja.win_game:
             print(win_message)
             exit(0)
 
         else:
+            # Ninja under attack is turned on when entering buildings with badguys.
+            # Whether they attack is randomly determined. If ninja did not block
+            # as last move, the ninja's health is decremented.
+
+            if self.ninja.under_attack_on:
+                if get_random_attack():
+                    if not self.ninja.is_blocking:
+                        print('YOU ARE HIT BY A FEW FIERCE BLOW!')
+                        self.ninja.change_health(0, 1)
+
+                        # Warn when health is down to 1.
+                        if self.ninja.health == 1:
+                            print('Warning! {} health left!'.format(self.ninja.health))
+
+                        # Ninja health is at zero. Player loses game.
+                        elif self.ninja.health < 1:
+                            print_logo()
+                            print(star_line)
+                            print('\nYOU LOSE! All ninjas have bad days, try again!\n')
+                            print(exit_message)
+                            exit(0)
+                    else:
+                        # Ninja was blocking attack.
+                        print("Nice block, that would of hurt!")
+
+                # Reset is_blocking.
+                self.ninja.is_blocking = False;
+
             # Get, parse, and execute player command.
             command = game_prompt('\nNext move: ')
 
@@ -92,7 +121,7 @@ class Game():
                 self.ninja.attack(self.badguys)
             # Block
             elif command == 'BLOCK':
-                pass
+                self.ninja.block_attack()
             # Help
             elif command == 'HELP':
                 print_help()
@@ -188,10 +217,12 @@ class City():
 class Ninja():
     def __init__(self, city):
         self.city = city
-        self.health = 3
+        self.health = 5
         self.weapon = 'STARS'
         self.block_location = 4 # Starts in middle of city.
         self.inside_building = False
+        self.is_blocking = False
+        self.under_attack_on = False
         self.win_game = False
         self.beat_boss = False
     
@@ -306,6 +337,9 @@ class Ninja():
             if badguy.health < 1:
                 self.city.blocks[self.block_location].has_badguy = False
                 badguy_list.pop()
+
+                # Reset ninja under attack to off.
+                self.under_attack_on = False
                 
                 # Are all badguys defeated ?
                 if len(badguy_list) < 1:
@@ -324,9 +358,10 @@ class Ninja():
                 else:
                     # Normal bad guy defeated.
                     print('\nOpponent Defeated!')
-                        
+     
+    # Ninja execute block. Sets ninja is blocking flag.                   
     def block_attack(self):
-        pass
+        self.is_blocking = True
     
     # Ninja enter building.
     def enter_building(self):
@@ -350,8 +385,9 @@ class Ninja():
                 print('You have found the ancient golden sword!')
                 print('Defeat the boss to complete the mission!')
 
-            # If building has a bad guy.
+            # If building has a bad guy, turn on ninja under attack flag.
             if self.city.blocks[self.block_location].has_badguy:
+                self.under_attack_on = True
                 print('You there! Prepare to bleed!')
     
     # Ninja exit building.
@@ -426,6 +462,11 @@ def get_random_block_attack():
     result = randint(-1, 1)
     return result
 
+# Implement 1 in 4 chance that bad guy attacks.
+def get_random_attack(): 
+    result = randint(-2, 1)
+    return result
+
 # User command input functions.
 # ----------------------------
 
@@ -434,7 +475,7 @@ def game_prompt(msg):
     command_in = input(msg)
     return command_in
 
-# Verify a valid menu option input
+# Verify a valid menu option input.
 def valid_menu_option(option):
     option = option.upper()
 
@@ -522,6 +563,7 @@ city_map = [
 ]
 
 game_commands = [
+    '________________________________',
     'COMMAND            WHAT IT DOES',
     '________________________________',
     'N         Move 1 block North.',
