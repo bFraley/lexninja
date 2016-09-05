@@ -72,7 +72,8 @@ class Game():
             # as last move, the ninja's health is decremented.
 
             if self.ninja.under_attack_on:
-                if get_random_attack():
+                
+                if get_random_attack() == 1:
                     if not self.ninja.is_blocking:
                         print('YOU ARE HIT BY A FEW FIERCE BLOW!')
                         self.ninja.change_health(0, 1)
@@ -324,7 +325,9 @@ class Ninja():
 
                 else:
                     # Decrement boss health if not blocked.
-                    if not badguy.block_attack():
+                    if get_random_badguy_block_attack() == 1:
+                        print('Your attack was blocked!!!')
+                    else:
                         badguy.change_health(0, 1)
                         print("Successful attack!")
             else:
@@ -335,7 +338,9 @@ class Ninja():
                 if self.beat_boss and self.weapon == 'SWORD':
                     badguy.health = 0
                 else:
-                    if not badguy.block_attack():
+                    if get_random_badguy_block_attack() == 1:
+                        print('Your attack was blocked!!!')
+                    else:
                         badguy.change_health(0, 1)
                         print("Successful attack!")
 
@@ -437,13 +442,6 @@ class Badguy():
     def attack(self):
         pass
 
-    def block_attack(self):
-        if get_random_block_attack():
-            print('Your attack was blocked!!!')
-            return True
-        else:
-            return False
-
 # Functions Definitions
 # ----------------------------------------------------------------------------
 
@@ -463,15 +461,15 @@ def new_badguy_indexlist():
     
     return badguy_location_list
 
-# Compute 1 in 20 chance that a bad guy blocks player's attack.
-def get_random_block_attack():
-    result = randint(-18, 1)
-    return result
+# Compute 1 in 5 chance that a bad guy blocks player's attack.
+def get_random_badguy_block_attack():
+    return randint(-3, 1)
 
-# Compute 1 in 20 chance that bad guy attacks.
-def get_random_attack(): 
-    result = randint(-18, 1)
-    return result
+
+# Compute 1 in 5 chance that bad guy attacks.
+def get_random_attack():
+    return randint(-3, 1)
+
 
 # User command input functions.
 # ----------------------------
