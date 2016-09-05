@@ -153,7 +153,6 @@ class Game():
 
             # New Game
             elif command == '2':
-                reset_city_map()
                 self.state = State()
                 self.city = City()
                 self.ninja = Ninja(self.city)
@@ -163,7 +162,6 @@ class Game():
                 print_logo()
                 print_help()
                 self.state.menu = False
-                #self.Start()
 
             # Save Game           
             elif command == '3':
@@ -237,9 +235,11 @@ class Ninja():
     def move_in_direction(self, direction):
         self.direction = direction
 
+        # Ninja can't move within city when ninja is inside building.
         if ninja_is_inside(self):
             print(warn_exit_building)
 
+        # Ninja can't move beyond edges of city.
         elif direction == 'N':      
             if ninja_on_edge(self, [0, 1, 2]):
                 print(warn_invalid_direction)
@@ -276,8 +276,7 @@ class Ninja():
                 print_map(self)
                 self.print_location()
 
-    
-    # Increase or decrase ninja health.
+    # Increase or decrease ninja health.
     def change_health(self, dec_or_inc, amt):
         amt = amt or 1
 
@@ -457,12 +456,12 @@ def new_badguy_indexlist():
     
     return badguy_location_list
 
-# Implement 1 in 3 chance that a bad guy blocks player's attack.
+# Compute 1 in 4 chance that a bad guy blocks player's attack.
 def get_random_block_attack():
-    result = randint(-1, 1)
+    result = randint(-2, 1)
     return result
 
-# Implement 1 in 4 chance that bad guy attacks.
+# Compute 1 in 4 chance that bad guy attacks.
 def get_random_attack(): 
     result = randint(-2, 1)
     return result
@@ -619,16 +618,6 @@ def print_help():
     os.system("clear")
     for command in game_commands:
         print('        {}    {}'.format(yinyang, command))
-
-
-# Reset city map
-def reset_city_map():
-    for line in city_map:
-        target = list(line)
-        if yinyang in target:
-            toremove = target.index(yinyang)
-            target[toremove] = ''
-            line = ''.join(target)
 
 # Insert sword character to city map strings.
 def update_city_map(row, block):
