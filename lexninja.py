@@ -28,7 +28,13 @@ class Game():
     # Place 4 health boosts in buildings without badguys.
     def hide_healths(self):
         for building in self.city.blocks:
+
+            # Put health boosts in buildings that don't have a bad guy.
             if not building.has_badguy:
+                building.has_health = True
+
+            # Put health boost in building containing the boss.
+            if building.has_goldensword:
                 building.has_health = True
 
     # Randomly pick 5 bad guy location indices to place in buildings.
@@ -457,14 +463,14 @@ def new_badguy_indexlist():
     
     return badguy_location_list
 
-# Compute 1 in 4 chance that a bad guy blocks player's attack.
+# Compute 1 in 20 chance that a bad guy blocks player's attack.
 def get_random_block_attack():
-    result = randint(-2, 1)
+    result = randint(-18, 1)
     return result
 
-# Compute 1 in 4 chance that bad guy attacks.
+# Compute 1 in 20 chance that bad guy attacks.
 def get_random_attack(): 
-    result = randint(-2, 1)
+    result = randint(-18, 1)
     return result
 
 # User command input functions.
