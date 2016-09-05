@@ -63,6 +63,8 @@ class Game():
 
         # Player won the game.
         elif self.ninja.win_game:
+            os.system("clear")
+            print_logo()
             print(win_message)
             exit(0)
 
@@ -461,12 +463,12 @@ def new_badguy_indexlist():
     
     return badguy_location_list
 
-# Compute 1 in 5 chance that a bad guy blocks player's attack.
+# Compute 1 in 4 chance that a bad guy blocks player's attack.
 def get_random_badguy_block_attack():
     return randint(-3, 1)
 
 
-# Compute 1 in 5 chance that bad guy attacks.
+# Compute 1 in 4 chance that bad guy attacks.
 def get_random_attack():
     return randint(-3, 1)
 
