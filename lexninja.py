@@ -622,19 +622,15 @@ def print_help():
 
 # Reset city map to original.
 def reset_city_map():
+    target = ''
     
     for i in [2, 5, 8]:
-        line = city_map[i]
-        line = list(line)
-        indices_to_reset = []
-        for char in line:
-            if char == yinyang:
-                indices_to_reset.append(line.index(char))
+        target = list(city_map[i])
 
-        for reset_index in indices_to_reset:
-            line[reset_index] = ' '
-
-        city_map[i] = ''.join(line)
+        for to_reset in [3, 14, 25]:
+            target[to_reset] = ' '
+            
+        city_map[i] = ''.join(target)
 
     return city_map
 
