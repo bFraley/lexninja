@@ -162,6 +162,7 @@ class Game():
                 print_logo()
                 print_help()
                 self.state.menu = False
+                city_map = reset_city_map()
 
             # Save Game           
             elif command == '3':
@@ -619,30 +620,37 @@ def print_help():
     for command in game_commands:
         print('        {}    {}'.format(yinyang, command))
 
+# Reset city map to original.
+def reset_city_map():
+    
+    for i in [2, 5, 8]:
+        line = city_map[i]
+        line = list(line)
+        indices_to_reset = []
+        for char in line:
+            if char == yinyang:
+                indices_to_reset.append(line.index(char))
+
+        for reset_index in indices_to_reset:
+            line[reset_index] = ' '
+
+        city_map[i] = ''.join(line)
+
+    return city_map
+
 # Insert sword character to city map strings.
 def update_city_map(row, block):
     visited = 0
     target = ''
 
-    # Update prior location with yin yang.
-    if swords in city_map[2]:
-        target = list(city_map[2])
-        visited = target.index(swords)
-        target[visited] = yinyang
-        city_map[2] = ''.join(target)
+    for i in [2, 5, 8]:
+        # Update prior location with yin yang.
+        if swords in city_map[i]:
+            target = list(city_map[i])
+            visited = target.index(swords)
+            target[visited] = yinyang
+            city_map[i] = ''.join(target)
 
-    elif swords in city_map[5]:
-        target = list(city_map[5])
-        visited = target.index(swords)
-        target[visited] = yinyang
-        city_map[5] = ''.join(target)
-
-    elif swords in city_map[8]:
-        target = list(city_map[8])
-        visited = target.index(swords)
-        target[visited] = yinyang
-        city_map[8] = ''.join(target)
-    
     # Update current location.
     city_map[row] = list(city_map[row])
     city_map[row][block] = swords
