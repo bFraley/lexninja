@@ -354,12 +354,8 @@ class Ninja():
                 # Reset ninja under attack to off.
                 self.under_attack_on = False
                 
-                # Are all badguys defeated ?
-                if len(badguy_list) < 1:
-                    self.win_game = True
-
                 # Did ninja defeat the boss?
-                elif self.city.blocks[self.block_location].has_goldensword:
+                if self.city.blocks[self.block_location].has_goldensword:
                     self.beat_boss = True
                     self.city.blocks[self.block_location].has_goldensword = False
                     print('\nBOSS DEFEATED!!')
@@ -371,6 +367,10 @@ class Ninja():
                 else:
                     # Normal bad guy defeated.
                     print('\nOpponent Defeated!')
+
+                # Are all badguys defeated ?
+                if len(badguy_list) < 1:
+                    self.win_game = True
      
     # Ninja execute block. Sets ninja is blocking flag.                   
     def block_attack(self):
