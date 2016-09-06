@@ -549,7 +549,7 @@ star_line = star_line*12
 
 # Dialogue text.
 author = '       By Brett Fraley - 2016       '
-menu_options = ['Resume', 'New Game', 'Save Game', 'Quit Game']
+menu_options = ['New Game', 'Resume', 'Save Game', 'Quit Game']
 exit_message = 'Thank you for playing lexninja, have a nice day!\n'
 win_message = 'CONGRATULATIONS, MISSION COMPLETE! YOU HAVE EARNED GREAT HONOR!\n'
 warn_exit_building = 'You must first exit the building!\n'
