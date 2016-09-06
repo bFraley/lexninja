@@ -131,6 +131,15 @@ class Game():
             # Block
             elif command == 'BLOCK':
                 self.ninja.block_attack()
+            # Staus
+            elif command == 'STATUS':
+                os.system("clear")
+                print('\nSTATUS\n{}\n'.format(yinyang_line))
+                self.ninja.print_location()
+                print('\nHEALTH: {}'.format(self.ninja.health))
+                print('\nWEAPON: {}'.format(self.ninja.weapon))
+
+
             # Help
             elif command == 'HELP':
                 print_help()
