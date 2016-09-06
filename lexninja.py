@@ -138,7 +138,7 @@ class Game():
                 self.ninja.print_location()
                 print('\nHEALTH: {}'.format(self.ninja.health))
                 print('\nWEAPON: {}'.format(self.ninja.weapon))
-
+                print('\n{} Bad guys left to defeat!'.format(len(self.badguys)))
 
             # Help
             elif command == 'HELP':
