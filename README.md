@@ -11,7 +11,7 @@ There is 1 building per city block (9 buildings).
 Find the Ancient Golden Sword located in one of the 9 buildings!
 
 Some buildings contain an opponent to defeat by striking 3 times.
-Some buildings contain a health restore item.
+Some buildings contain a health boost item.
 
 The Ancient Golden Sword is protected by a fierce opponent that
 takes 6 strikes to defeat!
@@ -22,7 +22,7 @@ Find the golden sword and defeat the boss protecting it.
 
 ### Lose if:
 
-1. Bad guy defeats ninja or ninja health is depleted.
+1. Bad guy defeats ninja (ninja health is depleted).
 
 ### Ninja Character
 
@@ -32,21 +32,19 @@ Each weapon causes the same amount of damage to opponents.
 
 1. Sword
 
-2. Nunchucks
+2. Nanchaku
 
 3. Thowing Stars
 
 #### Health
 
-- For simplicity, health is measured by low, medium, and high and
-is represented in code by numbers 1, 2, and 3.
+- Player health starts at 5.
 
 - Health level decreases when:
   - Getting struck by a bad guy.
-  - Every three moves made.
 
 - Health level increases when:
-  - Heart item is found (health fully restored).
+  - Health boost is found.
 
 ### Opponent Characters (bad guys)
 
@@ -54,7 +52,8 @@ is represented in code by numbers 1, 2, and 3.
 
  - Opponent health may only decrease.
  - Opponents are eliminated after three successful strikes.
-
+ - Note: Only 1 attack of the golden sword defeats bad guys.
+ 
 ### Wish List
 
 1. Run out of time.
