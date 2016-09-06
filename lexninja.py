@@ -465,12 +465,12 @@ def new_badguy_indexlist():
 
 # Compute 1 in 4 chance that a bad guy blocks player's attack.
 def get_random_badguy_block_attack():
-    return randint(-3, 1)
+    return randint(-2, 1)
 
 
 # Compute 1 in 4 chance that bad guy attacks.
 def get_random_attack():
-    return randint(-3, 1)
+    return randint(-2, 1)
 
 
 # User command input functions.
