@@ -413,6 +413,8 @@ class Ninja():
                 print('Now stay and fight, coward!')
             else:
                 self.inside_building = False
+                os.system("clear")
+                print_map(self)
                 self.print_location()
     
     # Ninja change weapon.
@@ -467,11 +469,9 @@ def new_badguy_indexlist():
 def get_random_badguy_block_attack():
     return randint(-2, 1)
 
-
 # Compute 1 in 4 chance that bad guy attacks.
 def get_random_attack():
     return randint(-2, 1)
-
 
 # User command input functions.
 # ----------------------------
