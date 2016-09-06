@@ -19,16 +19,16 @@ in the `run.py` file.
 
 ### Characters
 * Ninja
-* Opponent
+* Badguys
 
 ### Items
 * Weapons
-* Heart (health boost)
+* Health Boosts
 
 The city will be an array of Building objects.
 
 * 5 of 9 buildings will contain an opponent.
-* 4 of 9 buildings will contain a heart health item.
+* Buildings without badguys will contain a health boost.
 
 * Inside 1 of the 5 buildings that contain an opponent will be the
 ancient golden sword item.
@@ -72,7 +72,7 @@ N, E, S, W
 
 #### Switch weapon.
 
-SWORD, NUNCHUCK, STAR
+SWORD, CHAKU, STAR
 
 #### Enter bulding.
 
