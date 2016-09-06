@@ -133,11 +133,6 @@ class Game():
             elif command == 'BLOCK':
                 self.ninja.block_attack()
 
-            # Menu
-            elif command == 'MENU':
-                os.system("clear")
-                self.state.menu = True
-
             # Status
             elif command == 'STATUS':
                 os.system("clear")
@@ -147,15 +142,20 @@ class Game():
                 print('\nWEAPON: {}'.format(self.ninja.weapon))
                 print('\n{} Bad guys left to defeat!'.format(len(self.badguys)))
 
-            # Help
-            elif command == 'HELP':
-                print_help()
-                
             # Map
             elif command == 'MAP':
                 os.system("clear")
                 self.ninja.print_location()
                 print_map(self.ninja)
+
+            # Menu
+            elif command == 'MENU':
+                os.system("clear")
+                self.state.menu = True
+
+            # Help
+            elif command == 'HELP':
+                print_help()
 
             else:
                 print('Invalid command. Type help or try again.')
@@ -599,8 +599,10 @@ game_commands = [
     'STARS     Change weapon to throwing stars.',
     'CHAKU     Change weapon to nanchaku.',
     'ATTACK    Attack bad guy.',
-    'BLOCK     Not yet implemented.',
+    'BLOCK     Block bad guy attack.',
+    'STATUS    View ninja status.',   
     'MAP       View location on map.',
+    'MENU      View main menu.',
     'HELP      View the game commands'
 ]
 
