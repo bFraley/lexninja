@@ -128,10 +128,17 @@ class Game():
             # Attack   
             elif command == 'ATTACK':
                 self.ninja.attack(self.badguys)
+
             # Block
             elif command == 'BLOCK':
                 self.ninja.block_attack()
-            # Staus
+
+            # Menu
+            elif command == 'MENU':
+                os.system("clear")
+                self.state.menu = True
+
+            # Status
             elif command == 'STATUS':
                 os.system("clear")
                 print('\nSTATUS\n{}\n'.format(yinyang_line))
@@ -143,6 +150,7 @@ class Game():
             # Help
             elif command == 'HELP':
                 print_help()
+                
             # Map
             elif command == 'MAP':
                 os.system("clear")
