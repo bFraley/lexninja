@@ -77,7 +77,7 @@ class Game():
                 
                 if get_random_attack() == 1:
                     if not self.ninja.is_blocking:
-                        print('YOU ARE HIT BY A FEW FIERCE BLOW!')
+                        print('YOU ARE HIT BY A FIERCE BLOW!')
                         self.ninja.change_health(0, 1)
 
                         # Warn when health is down to 1.
