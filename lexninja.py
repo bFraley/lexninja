@@ -163,13 +163,13 @@ class Game():
     # Menu mode loop for main menu operations.
     def menu_mode(self):
         print_menu()
-        command = game_prompt('Choose option (1 - 4)\n')
+        command = game_prompt('Choose option (1 - 5)\n')
         
         # Process and act on menu option selection.
         if valid_menu_option(command):
 
             # Resume
-            if command == '1':
+            if command == '2':
                 self.state.paused = False
                 self.state.menu = False
                 os.system("clear")
@@ -178,25 +178,27 @@ class Game():
                 self.command_mode()
 
             # New Game
-            elif command == '2':
+            elif command == '1':
                 self.state = State()
                 self.city = City()
                 self.ninja = Ninja(self.city)
                 self.badguys = self.get_badguys()
                 self.hide_sword()
                 self.hide_healths()
+                self.state.paused = False
+                self.state.menu = False
+                os.system("clear")
                 print_logo()
                 print_help()
-                self.state.menu = False
+
                 city_map = reset_city_map()
 
             # Load game data.
             elif command == '3':
                 file_io.changeto_saved_dir()
                 loaded_file = file_io.load_game('gamefile.txt')
-
-                self = file_io.get_game_data(loaded_file
-                    )   
+                self = file_io.get_game_data(loaded_file)
+                game.command_mode()
 
             # Save Game           
             elif command == '4':
@@ -470,9 +472,6 @@ class Badguy():
         else:
             self.health += amt
 
-    def attack(self):
-        pass
-
 # Functions Definitions
 # ----------------------------------------------------------------------------
 
@@ -512,7 +511,7 @@ def game_prompt(msg):
 def valid_menu_option(option):
     option = option.upper()
 
-    if option in ['1', '2', '3', '4']:
+    if option in ['1', '2', '3', '4', '5']:
         return True
     else:
         os.system("clear")
@@ -601,8 +600,8 @@ game_commands = [
     '________________________________',
     'N         Move 1 block North.',
     'W         Move 1 block West.',
-    'S         Move 1 block South',
-    'E         Move 1 block East',
+    'S         Move 1 block South.',
+    'E         Move 1 block East.',
     'ENTER     Enter building.',
     'EXIT      Exit building.',
     'SWORD     Change weapon to sword.',
@@ -613,7 +612,7 @@ game_commands = [
     'STATUS    View ninja status.',   
     'MAP       View location on map.',
     'MENU      View main menu.',
-    'HELP      View the game commands'
+    'HELP      View the game commands.'
 ]
 
 # Logo is a list of lines used in print_logo below.

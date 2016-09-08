@@ -1,62 +1,25 @@
 $state
-False
-False
 True
-$city
-$B
-True 
-False 
-False 
 False
-$B
-False 
-True 
-False 
-False
-$B
-False 
-True 
-False 
-False
-$B
-True 
-False 
-False 
-False
-$B
-False 
-False 
-False 
-False
-$B
-True 
-True 
-True 
-False
-$B
-True 
-False 
-False 
-False
-$B
-True 
-False 
-False 
-False
-$B
-True 
-False 
-False 
-False
+True$city
+$BTrueFalse False False 
+$BTrueFalse False False 
+$BFalseTrue False False 
+$BTrueFalse False False 
+$BFalseFalse False False 
+$BTrueFalse False False 
+$BFalseTrue False False 
+$BFalseTrue False False 
+$BFalseTrue False False 
 $ninja
-5
-STARS
+2
+SWORD
 4
 False
 False
 False
 False
-False
+True
 $badguys
  $BGUY
 3
