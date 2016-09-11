@@ -1,15 +1,8 @@
 # utils.py
 # lexninja text-adventure game - Brett Fraley - 2016
 
-
 import os 
 import lexninja
-
-def changeto_saved_dir():
-    if os.chdir('saved_games'):
-        return True
-    else:
-        return False
 
 # Accept an instance of game and write data to game file.
 
@@ -26,16 +19,15 @@ def save_game(game_in, filename):
     state_line += "\n" + str(state.menu)
     
     # City.Building attributes.
-    city_line = ""
-    city_line += "$city"
+    city_line = "\n$city"
 
     for building in city.blocks:
 
-        city_line += '\n$B'
-        city_line += str(building.has_health) + ''
-        city_line += str(building.has_badguy) + ' '
-        city_line += str(building.has_goldensword) + ' '
-        city_line += str(building.visited) + ' '
+        city_line += '\n$B\n'
+        city_line += str(building.has_health) + '\n'
+        city_line += str(building.has_badguy) + '\n'
+        city_line += str(building.has_goldensword) + '\n'
+        city_line += str(building.visited)
 
     # Ninja attributes.
 
@@ -93,22 +85,22 @@ def get_game_data(game_data):
     game_out.state.saved = bool(game_data[line + 2])
     game_out.state.saved = bool(game_data[line + 3])
     
-    # Read and assign game.state values from game data file.
-    bstart = city_index + 1
+    # Read and assign game.city values from game data file.
+    block = city_index + 1
     i = 0
 
     while i < 9:
-        health = bstart + 1
-        badguy = bstart + 2
-        sword = bstart + 3
-        visited = bstart + 4
+        health = block + 1
+        badguy = block + 2
+        sword = block + 3
+        visited = block + 4
 
-        game_out.city.blocks[i].has_health = str(game_data[health])
-        game_out.city.blocks[i].has_badguy = str(game_data[badguy])
+        game_out.city.blocks[i].has_health = (game_data[health])
+        game_out.city.blocks[i].has_badguy = (game_data[badguy])
         game_out.city.blocks[i].has_goldensword = str(game_data[sword])
-        game_out.city.blocks[i].has_visited = str(game_data[visited])
+        game_out.city.blocks[i].has_visited = (game_data[visited])
 
-        bstart = bstart + 5
+        block = block + 5
         i += 1
 
     # Read and assign game.ninja values from game data file.
@@ -124,63 +116,7 @@ def get_game_data(game_data):
     game_out.ninja.win_game = str(game_data[line + 7])
     game_out.ninja.beat_boss = str(game_data[line + 8])
 
-    # Read and assign badguys list values from game data file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # Read and assign badguys list values from game data file.
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return game_out
+    

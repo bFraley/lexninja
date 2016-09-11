@@ -189,21 +189,18 @@ class Game():
                 self.state.menu = False
                 os.system("clear")
                 print_logo()
-                print_help()
-
+                print_help()                
                 city_map = reset_city_map()
-
+                self.command_mode()
+ 
             # Load game data.
             elif command == '3':
-                file_io.changeto_saved_dir()
                 loaded_file = file_io.load_game('gamefile.txt')
                 self = file_io.get_game_data(loaded_file)
-                game.command_mode()
+                self.command_mode()
 
             # Save Game           
             elif command == '4':
-                # print('saving game not implemented')
-                file_io.changeto_saved_dir()
                 file_io.save_game(self, 'gamefile.txt')
 
             # Quit Game
