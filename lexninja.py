@@ -195,13 +195,13 @@ class Game():
  
             # Load game data.
             elif command == '3':
-                loaded_file = file_io.load_game('gamefile.txt')
+                loaded_file = file_io.load_game('saved_game.txt')
                 self = file_io.get_game_data(loaded_file)
                 self.command_mode()
 
             # Save Game           
             elif command == '4':
-                file_io.save_game(self, 'gamefile.txt')
+                file_io.save_game(self, 'saved_game.txt')
 
             # Quit Game
             elif command == '5':

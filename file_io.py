@@ -95,10 +95,10 @@ def get_game_data(game_data):
         sword = block + 3
         visited = block + 4
 
-        game_out.city.blocks[i].has_health = (game_data[health])
-        game_out.city.blocks[i].has_badguy = (game_data[badguy])
+        game_out.city.blocks[i].has_health = game_data[health]
+        game_out.city.blocks[i].has_badguy = game_data[badguy]
         game_out.city.blocks[i].has_goldensword = str(game_data[sword])
-        game_out.city.blocks[i].has_visited = (game_data[visited])
+        game_out.city.blocks[i].has_visited = game_data[visited]
 
         block = block + 5
         i += 1
@@ -107,9 +107,9 @@ def get_game_data(game_data):
     line = ninja_index
 
     game_out.ninja.city = game_out.city
-    game_out.ninja.health = str(game_data[line + 1])
-    game_out.ninja.weapon = str(game_data[line + 2])
-    game_out.ninja.block_location = str(game_data[line + 3])
+    game_out.ninja.health = int(game_data[line + 1])
+    game_out.ninja.weapon = game_data[line + 2]
+    game_out.ninja.block_location = int(game_data[line + 3])
     game_out.ninja.inside_building = str(game_data[line + 4])
     game_out.ninja.is_blocking = str(game_data[line + 5])
     game_out.ninja.under_attack_on = str(game_data[line + 6])
@@ -117,6 +117,14 @@ def get_game_data(game_data):
     game_out.ninja.beat_boss = str(game_data[line + 8])
 
     # Read and assign badguys list values from game data file.
-    
+    line = badguys_index
+    i = 0
+
+    while i < len(badguys):
+        game_out.badguys[i].health = game_data[line + 2]
+        game_out.badguys[i].is_boss = game_data[line + 3]
+        line = line + 2
+        i += 1
+
     return game_out
     
