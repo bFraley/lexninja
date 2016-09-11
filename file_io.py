@@ -50,6 +50,8 @@ def save_game(game_in, filename):
         badguy_line += "\n" + str(guy.health)
         badguy_line += "\n" + str(guy.is_boss)
 
+    badguy_line += "\nend"
+
 
     file = open(filename, 'w')
     file.write(state_line)
@@ -57,21 +59,34 @@ def save_game(game_in, filename):
     file.write(ninja_line)
     file.write(badguy_line)
     file.close()
+    os.system("clear")
+    print('Game saved!')
 
-# -----------------------------------------------
+# Load game file (saved_game.txt).
 
 def load_game(filename):
     file = open(filename, 'r')
     file_data = file.read()
     file.close()
-
     return file_data.split('\n') 
 
+def get_game_data(game, game_data):
 
-def get_game_data(game_data):
-    game_out = lexninja.Game()
+    # Get num of badguys saved in game_data
+    badguy_count = 0
+    for line in game_data:
+        if line == ' BGUY$':
+            badguy_count += 1
 
-    line = 0
+    count_is_less = badguy_count < len(game.badguys) 
+
+    # Reset badguys length equal to game_data
+    if count_is_less:
+        while badguy_count < len(game.badguys):
+            game.badguys.pop()
+    else:
+        while badguy_count > len(game.badguys):
+            game.badguys.append(game.badguys[0])
     
     # Get game data delimiter indices. 
     state_index = game_data.index('$state')
@@ -81,10 +96,22 @@ def get_game_data(game_data):
 
     # Read and assign game.state values from game data file.
     line = state_index
-    game_out.state.paused = bool(game_data[line + 1])
-    game_out.state.saved = bool(game_data[line + 2])
-    game_out.state.saved = bool(game_data[line + 3])
-    
+
+    if game_data[line + 1] == 'True':
+        game.state.paused = True
+    else:
+        game.state.paused = False
+
+    if game_data[line + 2] == 'True':
+        game.state.saved = True
+    else:
+        game.state.saved = False
+
+    if game_data[line + 3] == 'True':
+        game.state.menu = True
+    else:
+        game.state.menu = False
+
     # Read and assign game.city values from game data file.
     block = city_index + 1
     i = 0
@@ -95,10 +122,26 @@ def get_game_data(game_data):
         sword = block + 3
         visited = block + 4
 
-        game_out.city.blocks[i].has_health = game_data[health]
-        game_out.city.blocks[i].has_badguy = game_data[badguy]
-        game_out.city.blocks[i].has_goldensword = str(game_data[sword])
-        game_out.city.blocks[i].has_visited = game_data[visited]
+        if game_data[health] == 'True':
+            game.city.blocks[i].has_health = True
+        else:
+            game.city.blocks[i].has_health = False
+
+        if game_data[badguy] == 'True':
+            game.city.blocks[i].has_badguy = True
+            game.badguys.append(lexninja.Badguy(game.city))
+        else:
+            game.city.blocks[i].has_badguy = False
+
+        if game_data[sword] == 'True':
+            game.city.blocks[i].has_goldensword = True
+        else:
+            game.city.blocks[i].has_goldensword = False
+
+        if game_data[visited] == 'True':
+            game.city.blocks[i].has_visited = True
+        else:
+            game.city.blocks[i].has_visited = False
 
         block = block + 5
         i += 1
@@ -106,25 +149,45 @@ def get_game_data(game_data):
     # Read and assign game.ninja values from game data file.
     line = ninja_index
 
-    game_out.ninja.city = game_out.city
-    game_out.ninja.health = int(game_data[line + 1])
-    game_out.ninja.weapon = game_data[line + 2]
-    game_out.ninja.block_location = int(game_data[line + 3])
-    game_out.ninja.inside_building = str(game_data[line + 4])
-    game_out.ninja.is_blocking = str(game_data[line + 5])
-    game_out.ninja.under_attack_on = str(game_data[line + 6])
-    game_out.ninja.win_game = str(game_data[line + 7])
-    game_out.ninja.beat_boss = str(game_data[line + 8])
+    game.ninja.city = game.city
+    game.ninja.health = int(game_data[line + 1])
+    game.ninja.weapon = game_data[line + 2]
+    game.ninja.block_location = int(game_data[line + 3])
+
+    if game_data[line + 4] == 'True':
+        game.ninja.inside_building = True
+    else:
+        game.ninja.inside_building = False
+
+    if game_data[line + 6] == 'True':
+        game.ninja.under_attack_on = True
+    else:
+        game.ninja.under_attack_on = False
+
+    if game_data[line + 8] == 'True':
+        game.ninja.beat_boss = True
+    else:
+        game.ninja.beat_boss = False
+
+    game.ninja.is_blocking = False
+    game.ninja.win_game = False
 
     # Read and assign badguys list values from game data file.
-    line = badguys_index
-    i = 0
+    line = badguys_index + 1
 
-    while i < len(badguys):
-        game_out.badguys[i].health = game_data[line + 2]
-        game_out.badguys[i].is_boss = game_data[line + 3]
-        line = line + 2
+    for i in range(0,badguy_count):
+        game.badguys[i].health = int(game_data[line + 1])
+        game.badguys[i].city = game.city
+
+        if game_data[line + 2] == 'True':
+            print('got boss')
+            game.badguys[i].is_boss = True
+        else:
+            game.badguys[i].is_boss = False
+
+        line = line + 3
         i += 1
 
-    return game_out
+    os.system("clear")
+    print('Saved game loaded!')
     
