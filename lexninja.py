@@ -277,7 +277,7 @@ class Ninja():
 
         # Ninja can't move beyond edges of city.
         elif direction == 'N':      
-            if ninja_on_edge(self, [0, 1, 2]):
+            if ninja_on_edge(self, north_edge):
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location - 3
@@ -286,7 +286,7 @@ class Ninja():
                 self.print_location()
 
         elif direction == 'E':
-            if ninja_on_edge(self, [2, 5, 8]):
+            if ninja_on_edge(self, east_edge):
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location + 1
@@ -295,7 +295,7 @@ class Ninja():
                 self.print_location()
 
         elif direction == 'S':
-            if ninja_on_edge(self, [6, 7, 8]):
+            if ninja_on_edge(self, south_edge):
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location + 3
@@ -304,7 +304,7 @@ class Ninja():
                 self.print_location()
             
         elif direction == 'W':
-            if ninja_on_edge(self, [0, 3, 6]):
+            if ninja_on_edge(self, west_edge):
                 print(warn_invalid_direction)
             else:
                 self.block_location = self.block_location - 1
@@ -622,6 +622,12 @@ logo = [
     '                         |__/'
 ]
 
+# City map edge indices for determining boundaries.
+north_edge = [0, 1, 2]
+east_edge = [2, 5, 8]
+south_edge = [6, 7, 8]
+west_edge = [0, 3, 6]
+
 # Printing helper functions
 # -------------------------
 
@@ -655,7 +661,7 @@ def print_help():
 def reset_city_map():
     target = ''
     
-    for i in [2, 5, 8]:
+    for i in north_edge:
         target = list(city_map[i])
 
         for to_reset in [3, 14, 25]:
@@ -670,7 +676,7 @@ def update_city_map(row, block):
     visited = 0
     target = ''
 
-    for i in [2, 5, 8]:
+    for i in east_edge:
         # Update prior location with yin yang.
         if swords in city_map[i]:
             target = list(city_map[i])
