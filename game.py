@@ -93,10 +93,10 @@ class Game():
 
                         # Ninja health is at zero. Player loses game.
                         elif self.ninja.health < 1:
-                            print_logo()
-                            print(star_line)
+                            text.print_logo()
+                            print(text.star_line)
                             print('\nYOU LOSE! All ninjas have bad days, try again!\n')
-                            print(exit_message)
+                            print(text.exit_message)
                             exit(0)
                     else:
                         # Ninja was blocking attack.
@@ -213,8 +213,8 @@ class Game():
             # Quit Game
             elif command == '5':
                 os.system("clear")
-                print_logo()
-                print('{}'.format(exit_message))
+                text.print_logo()
+                print('{}'.format(text.exit_message))
                 exit(0)
 
     # Return command value from game prompt.
