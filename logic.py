@@ -26,3 +26,4 @@ def get_random_badguy_block_attack():
 # Compute 1 in 4 chance that bad guy attacks.
 def get_random_attack():
     return randint(-2, 1)
+    

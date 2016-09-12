@@ -13,7 +13,6 @@ class Building():
 # There is a single instance of city in the game.
 class City():
     def __init__(self):
-
         self.blocks = [
             Building(), Building(), Building(),
             Building(), Building(), Building(),
