@@ -19,3 +19,4 @@ class Badguy():
             self.health -= amt
         else:
             self.health += amt
+            

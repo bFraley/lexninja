@@ -221,4 +221,3 @@ class Ninja():
         else:
             self.weapon = weapon
             print('Now using {}'.format(self.weapon))
-
