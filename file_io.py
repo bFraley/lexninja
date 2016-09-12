@@ -1,8 +1,9 @@
 # utils.py
 # lexninja text-adventure game - Brett Fraley - 2016
 
-import os 
-import lexninja
+import os
+from badguy import Badguy
+import game
 
 # Accept an instance of game and write data to game file.
 
@@ -50,9 +51,6 @@ def save_game(game_in, filename):
         badguy_line += "\n" + str(guy.health)
         badguy_line += "\n" + str(guy.is_boss)
 
-    badguy_line += "\nend"
-
-
     file = open(filename, 'w')
     file.write(state_line)
     file.write(city_line)
@@ -70,7 +68,7 @@ def load_game(filename):
     file.close()
     return file_data.split('\n') 
 
-def get_game_data(game, game_data):
+def get_game_data(game_obj, game_data):
 
     # Get num of badguys saved in game_data
     badguy_count = 0
@@ -78,15 +76,15 @@ def get_game_data(game, game_data):
         if line == ' BGUY$':
             badguy_count += 1
 
-    count_is_less = badguy_count < len(game.badguys) 
+    count_is_less = badguy_count < len(game_obj.badguys) 
 
     # Reset badguys length equal to game_data
     if count_is_less:
-        while badguy_count < len(game.badguys):
-            game.badguys.pop()
+        while badguy_count < len(game_obj.badguys):
+            game_obj.badguys.pop()
     else:
-        while badguy_count > len(game.badguys):
-            game.badguys.append(game.badguys[0])
+        while badguy_count > len(game_obj.badguys):
+            game_obj.badguys.append(game_obj.badguys[0])
     
     # Get game data delimiter indices. 
     state_index = game_data.index('$state')
@@ -98,19 +96,19 @@ def get_game_data(game, game_data):
     line = state_index
 
     if game_data[line + 1] == 'True':
-        game.state.paused = True
+        game_obj.state.paused = True
     else:
-        game.state.paused = False
+        game_obj.state.paused = False
 
     if game_data[line + 2] == 'True':
-        game.state.saved = True
+        game_obj.state.saved = True
     else:
-        game.state.saved = False
+        game_obj.state.saved = False
 
     if game_data[line + 3] == 'True':
-        game.state.menu = True
+        game_obj.state.menu = True
     else:
-        game.state.menu = False
+        game_obj.state.menu = False
 
     # Read and assign game.city values from game data file.
     block = city_index + 1
@@ -123,25 +121,25 @@ def get_game_data(game, game_data):
         visited = block + 4
 
         if game_data[health] == 'True':
-            game.city.blocks[i].has_health = True
+            game_obj.city.blocks[i].has_health = True
         else:
-            game.city.blocks[i].has_health = False
+            game_obj.city.blocks[i].has_health = False
 
         if game_data[badguy] == 'True':
-            game.city.blocks[i].has_badguy = True
-            game.badguys.append(lexninja.Badguy(game.city))
+            game_obj.city.blocks[i].has_badguy = True
+            game_obj.badguys.append(Badguy(game_obj.city))
         else:
-            game.city.blocks[i].has_badguy = False
+            game_obj.city.blocks[i].has_badguy = False
 
         if game_data[sword] == 'True':
-            game.city.blocks[i].has_goldensword = True
+            game_obj.city.blocks[i].has_goldensword = True
         else:
-            game.city.blocks[i].has_goldensword = False
+            game_obj.city.blocks[i].has_goldensword = False
 
         if game_data[visited] == 'True':
-            game.city.blocks[i].has_visited = True
+            game_obj.city.blocks[i].has_visited = True
         else:
-            game.city.blocks[i].has_visited = False
+            game_obj.city.blocks[i].has_visited = False
 
         block = block + 5
         i += 1
@@ -149,41 +147,40 @@ def get_game_data(game, game_data):
     # Read and assign game.ninja values from game data file.
     line = ninja_index
 
-    game.ninja.city = game.city
-    game.ninja.health = int(game_data[line + 1])
-    game.ninja.weapon = game_data[line + 2]
-    game.ninja.block_location = int(game_data[line + 3])
+    game_obj.ninja.city = game_obj.city
+    game_obj.ninja.health = int(game_data[line + 1])
+    game_obj.ninja.weapon = game_data[line + 2]
+    game_obj.ninja.block_location = int(game_data[line + 3])
 
     if game_data[line + 4] == 'True':
-        game.ninja.inside_building = True
+        game_obj.ninja.inside_building = True
     else:
-        game.ninja.inside_building = False
+        game_obj.ninja.inside_building = False
 
     if game_data[line + 6] == 'True':
-        game.ninja.under_attack_on = True
+        game_obj.ninja.under_attack_on = True
     else:
-        game.ninja.under_attack_on = False
+        game_obj.ninja.under_attack_on = False
 
     if game_data[line + 8] == 'True':
-        game.ninja.beat_boss = True
+        game_obj.ninja.beat_boss = True
     else:
-        game.ninja.beat_boss = False
+        game_obj.ninja.beat_boss = False
 
-    game.ninja.is_blocking = False
-    game.ninja.win_game = False
+    game_obj.ninja.is_blocking = False
+    game_obj.ninja.win_game = False
 
     # Read and assign badguys list values from game data file.
     line = badguys_index + 1
 
     for i in range(0,badguy_count):
-        game.badguys[i].health = int(game_data[line + 1])
-        game.badguys[i].city = game.city
+        game_obj.badguys[i].health = int(game_data[line + 1])
+        game_obj.badguys[i].city = game_obj.city
 
         if game_data[line + 2] == 'True':
-            print('got boss')
-            game.badguys[i].is_boss = True
+            game_obj.badguys[i].is_boss = True
         else:
-            game.badguys[i].is_boss = False
+            game_obj.badguys[i].is_boss = False
 
         line = line + 3
         i += 1

@@ -1,17 +1,18 @@
 # lexninja text-adventure game - Brett Fraley - 2016
+# play.py
 
-import lexninja
+import text
+import game
 
 def Start():
     # Instantiate an instance of Game and enter game loop.
-    game = lexninja.Game()
+    play = game.Game()
     RUN = True
-    lexninja.print_logo()
+    text.print_logo()
 
     while RUN:
-        game.command_mode()
-
+        play.command_mode()
 
 # Execute game.
 Start()
-        
+ 
