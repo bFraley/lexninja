@@ -1,6 +1,20 @@
-## lexninja game description
+## lexninja
+Text adventure game in Python 3 (runs in terminal)
 
-Text adventure game.
+## Play It
+
+The game doesn't have any dependencies besides Python 3.
+The game won't on Windows, as it has POSIX specific code. 
+
+Download or clone this and use Python 3 to execute play.py
+
+`python3 run.py`
+
+#### Here's some screenshots!
+
+![](https://github.com/bFraley/lexninja/blob/master/screenshots/start.png)
+![](https://github.com/bFraley/lexninja/blob/master/screenshots/menu.png)
+![](https://github.com/bFraley/lexninja/blob/master/screenshots/map.png)
 
 ### Theme:
 
