@@ -1,5 +1,5 @@
 __pycache__/
-.pyc
+*.pyc
 .DS_Store
 saved_game.txt
 screenshots/
