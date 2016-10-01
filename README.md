@@ -8,7 +8,7 @@ The game won't on Windows, as it has POSIX specific code.
 
 Download or clone this and use Python 3 to execute play.py
 
-`python3 run.py`
+`python3 play.py`
 
 #### Here's some screenshots!
 
